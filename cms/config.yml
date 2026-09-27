@@ -1,0 +1,302 @@
+# Build substitutes the three connection values. Do not serve this template directly.
+backend:
+  name: github
+  repo: __CMS_GITHUB_REPO__
+  branch: __CMS_GITHUB_BRANCH__
+  base_url: __CMS_OAUTH_BASE_URL__
+__CMS_SITE_DOMAIN_LINE__
+
+publish_mode: editorial_workflow
+media_folder: public/images/uploads
+public_folder: /images/uploads
+
+collections:
+  - name: leadership
+    label: Leadership
+    folder: src/content/leadership
+    create: true
+    delete: false
+    extension: md
+    format: frontmatter
+    slug: '{{slug}}'
+    fields:
+      - { name: title, label: Internal title, widget: string }
+      - { name: publishStatus, label: Website visibility, widget: select, options: [draft, published], default: draft, hint: 'Also use the editorial workflow to review changes before publishing.' }
+      - { name: sample, label: Fictional sample, widget: boolean, default: false }
+      - { name: name, label: Name, widget: string }
+      - { name: designation, label: Designation, widget: string }
+      - { name: shortMessage, label: Short message, widget: text }
+      - { name: fullMessage, label: Full message, widget: markdown, required: false }
+      - name: portrait
+        label: Portrait
+        widget: object
+        required: false
+        fields:
+          - { name: src, label: Image, widget: image }
+          - { name: alt, label: Alt text, widget: string }
+          - { name: caption, label: Caption, widget: string, required: false }
+          - { name: width, label: Width in pixels, widget: number, value_type: int, min: 1, required: false }
+          - { name: height, label: Height in pixels, widget: number, value_type: int, min: 1, required: false }
+      - name: signature
+        label: Signature
+        widget: object
+        required: false
+        fields:
+          - { name: src, label: Image, widget: image }
+          - { name: alt, label: Alt text, widget: string }
+          - { name: caption, label: Caption, widget: string, required: false }
+          - { name: width, label: Width in pixels, widget: number, value_type: int, min: 1, required: false }
+          - { name: height, label: Height in pixels, widget: number, value_type: int, min: 1, required: false }
+      - { name: displayOrder, label: Display order, widget: number, value_type: int, min: 0 }
+      - { name: body, label: Article text, widget: markdown, required: false }
+
+  - name: projects
+    label: Projects
+    folder: src/content/projects
+    create: true
+    delete: false
+    extension: md
+    format: frontmatter
+    slug: '{{slug}}'
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: publishStatus, label: Website visibility, widget: select, options: [draft, published], default: draft }
+      - { name: sample, label: Fictional sample, widget: boolean, default: false }
+      - { name: category, label: Category, widget: select, options: [Robotics, 'AI & IoT', Sustainability, 'Health & Safety', 'Social Innovation'] }
+      - { name: status, label: Project stage, widget: select, options: [Idea, Prototype, Testing, Completed], required: false, hint: 'Leave blank when the source does not establish a stage.' }
+      - { name: year, label: Year, widget: number, value_type: int, min: 2017, max: 2100, required: false }
+      - { name: summary, label: Short summary, widget: text }
+      - { name: problem, label: Problem, widget: text }
+      - { name: objective, label: Objective, widget: text, required: false }
+      - { name: workingMechanism, label: How it works, widget: text, required: false }
+      - { name: teamIntention, label: Team intention, widget: text, required: false, hint: 'Editorial prose, not a verbatim quotation.' }
+      - name: testimonial
+        label: Approved project testimonial
+        widget: object
+        required: false
+        fields:
+          - { name: quote, label: Exact quote, widget: text }
+          - { name: attribution, label: Public attribution, widget: string }
+          - { name: approved, label: Approved for publication, widget: boolean, default: true, hint: 'Only add this object when quote and attribution are approved.' }
+      - name: team
+        label: Team members
+        widget: list
+        required: false
+        field: { name: member, label: Name, widget: string }
+      - name: teamPhoto
+        label: Team photo
+        widget: object
+        required: false
+        fields:
+          - { name: src, label: Image, widget: image }
+          - { name: alt, label: Alt text, widget: string }
+          - { name: caption, label: Caption, widget: string, required: false }
+          - { name: width, label: Width in pixels, widget: number, value_type: int, min: 1, required: false }
+          - { name: height, label: Height in pixels, widget: number, value_type: int, min: 1, required: false }
+      - { name: mentor, label: Mentor, widget: string, required: false }
+      - { name: mentorContribution, label: Mentor contribution, widget: text, required: false }
+      - name: technologies
+        label: Technologies
+        widget: list
+        required: false
+        field: { name: technology, label: Technology, widget: string }
+      - name: materials
+        label: Materials
+        widget: list
+        required: false
+        field: { name: material, label: Material, widget: string }
+      - name: cover
+        label: Cover image
+        widget: object
+        required: false
+        fields:
+          - { name: src, label: Image, widget: image }
+          - { name: alt, label: Alt text, widget: string }
+          - { name: caption, label: Caption, widget: string, required: false }
+          - { name: width, label: Width in pixels, widget: number, value_type: int, min: 1, required: false }
+          - { name: height, label: Height in pixels, widget: number, value_type: int, min: 1, required: false }
+      - name: gallery
+        label: Gallery
+        widget: list
+        required: false
+        fields:
+          - { name: src, label: Image, widget: image }
+          - { name: alt, label: Alt text, widget: string }
+          - { name: caption, label: Caption, widget: string, required: false }
+          - { name: width, label: Width in pixels, widget: number, value_type: int, min: 1, required: false }
+          - { name: height, label: Height in pixels, widget: number, value_type: int, min: 1, required: false }
+      - { name: reportPdf, label: Project report PDF, widget: file, required: false }
+      - { name: videoUrl, label: Video URL, widget: string, required: false }
+      - { name: featured, label: Featured, widget: boolean, default: false }
+      - { name: body, label: Project article, widget: markdown, required: false }
+
+  - name: awards
+    label: Awards and achievements
+    folder: src/content/awards
+    create: true
+    delete: false
+    extension: md
+    format: frontmatter
+    slug: '{{slug}}'
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: publishStatus, label: Website visibility, widget: select, options: [draft, published], default: draft }
+      - { name: sample, label: Fictional sample, widget: boolean, default: false }
+      - { name: organiser, label: Organiser, widget: string }
+      - { name: competition, label: Competition, widget: string, required: false }
+      - { name: result, label: Result, widget: text }
+      - { name: achievementType, label: Achievement type, widget: select, options: [Award, Selection, Participation, Grant, Recognition] }
+      - { name: level, label: Level, widget: select, options: [School, District, Regional, State, National, International], required: false }
+      - { name: date, label: Exact date, widget: string, required: false, pattern: ['^\d{4}-\d{2}-\d{2}$', 'Use YYYY-MM-DD; leave blank if unknown.'] }
+      - { name: year, label: Year, widget: number, value_type: int, min: 2017, max: 2100, required: false }
+      - { name: academicYear, label: Academic year, widget: string, required: false, pattern: ['^\d{4}[-/]\d{2,4}$', 'Use a supplied academic year such as 2025-26.'] }
+      - { name: projectId, label: Project ID, widget: string, required: false, hint: 'Use the project filename without .md.' }
+      - name: students
+        label: Students
+        widget: list
+        required: false
+        field: { name: student, label: Name, widget: string }
+      - { name: certificate, label: Certificate, widget: file, required: false }
+      - { name: officialResultUrl, label: Official result URL, widget: string, required: false }
+      - name: photos
+        label: Photos
+        widget: list
+        required: false
+        fields:
+          - { name: src, label: Image, widget: image }
+          - { name: alt, label: Alt text, widget: string }
+          - { name: caption, label: Caption, widget: string, required: false }
+          - { name: width, label: Width in pixels, widget: number, value_type: int, min: 1, required: false }
+          - { name: height, label: Height in pixels, widget: number, value_type: int, min: 1, required: false }
+      - { name: featured, label: Featured, widget: boolean, default: false }
+      - { name: body, label: Achievement article, widget: markdown, required: false }
+
+  - name: news
+    label: News and schemes
+    folder: src/content/news
+    create: true
+    delete: false
+    extension: md
+    format: frontmatter
+    slug: '{{slug}}'
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: publishStatus, label: Website visibility, widget: select, options: [draft, published], default: draft }
+      - { name: sample, label: Fictional sample, widget: boolean, default: false }
+      - { name: category, label: Category, widget: select, options: [Achievement, Announcement, Scheme, Workshop, Result, 'External Link'] }
+      - { name: summary, label: Summary, widget: text }
+      - { name: publishedAt, label: Publication date, widget: string, required: false, pattern: ['^\d{4}-\d{2}-\d{2}$', 'Use YYYY-MM-DD; leave blank if unknown.'] }
+      - name: image
+        label: Image
+        widget: object
+        required: false
+        fields:
+          - { name: src, label: Image, widget: image }
+          - { name: alt, label: Alt text, widget: string }
+          - { name: caption, label: Caption, widget: string, required: false }
+          - { name: width, label: Width in pixels, widget: number, value_type: int, min: 1, required: false }
+          - { name: height, label: Height in pixels, widget: number, value_type: int, min: 1, required: false }
+      - { name: officialUrl, label: Official URL, widget: string, required: false }
+      - { name: attachment, label: Attachment, widget: file, required: false }
+      - { name: featured, label: Featured, widget: boolean, default: false }
+      - { name: body, label: Article, widget: markdown, required: false }
+
+  - name: competitions
+    label: Competitions
+    folder: src/content/competitions
+    create: true
+    delete: false
+    extension: md
+    format: frontmatter
+    slug: '{{slug}}'
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: publishStatus, label: Website visibility, widget: select, options: [draft, published], default: draft }
+      - { name: sample, label: Fictional sample, widget: boolean, default: false }
+      - { name: organiser, label: Organiser, widget: string }
+      - { name: summary, label: Summary, widget: text }
+      - { name: eligibility, label: Eligibility, widget: text, required: false }
+      - { name: announcedAt, label: Announcement date, widget: string, required: false, pattern: ['^\d{4}-\d{2}-\d{2}$', 'Use YYYY-MM-DD.'] }
+      - { name: deadline, label: Deadline, widget: string, required: false, pattern: ['^\d{4}-\d{2}-\d{2}$', 'Use YYYY-MM-DD.'] }
+      - { name: officialUrl, label: Official URL, widget: string, required: false }
+      - { name: registrationUrl, label: Registration URL, widget: string, required: false }
+      - name: image
+        label: Image
+        widget: object
+        required: false
+        fields:
+          - { name: src, label: Image, widget: image }
+          - { name: alt, label: Alt text, widget: string }
+          - { name: caption, label: Caption, widget: string, required: false }
+          - { name: width, label: Width in pixels, widget: number, value_type: int, min: 1, required: false }
+          - { name: height, label: Height in pixels, widget: number, value_type: int, min: 1, required: false }
+      - { name: attachment, label: Attachment, widget: file, required: false }
+      - { name: body, label: Details, widget: markdown, required: false }
+
+  - name: events
+    label: Events and gallery
+    folder: src/content/events
+    create: true
+    delete: false
+    extension: md
+    format: frontmatter
+    slug: '{{slug}}'
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: publishStatus, label: Website visibility, widget: select, options: [draft, published], default: draft }
+      - { name: sample, label: Fictional sample, widget: boolean, default: false }
+      - { name: date, label: Exact date, widget: string, required: false, pattern: ['^\d{4}-\d{2}-\d{2}$', 'Use YYYY-MM-DD; leave blank if unknown.'] }
+      - { name: year, label: Year, widget: number, value_type: int, min: 2017, max: 2100, required: false }
+      - { name: location, label: Location, widget: string, required: false }
+      - { name: summary, label: Summary, widget: text }
+      - name: gallery
+        label: Gallery
+        widget: list
+        required: false
+        fields:
+          - { name: src, label: Image, widget: image }
+          - { name: alt, label: Alt text, widget: string }
+          - { name: caption, label: Caption, widget: string, required: false }
+          - { name: width, label: Width in pixels, widget: number, value_type: int, min: 1, required: false }
+          - { name: height, label: Height in pixels, widget: number, value_type: int, min: 1, required: false }
+      - { name: reportPdf, label: Event report PDF, widget: file, required: false }
+      - { name: videoUrl, label: Video URL, widget: string, required: false }
+      - name: participants
+        label: Participants
+        widget: list
+        required: false
+        field: { name: participant, label: Name, widget: string }
+      - { name: body, label: Event article, widget: markdown, required: false }
+
+  - name: publications
+    label: Tech Grooves publications
+    folder: src/content/publications
+    create: true
+    delete: false
+    extension: md
+    format: frontmatter
+    slug: '{{slug}}'
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: publishStatus, label: Website visibility, widget: select, options: [draft, published], default: draft }
+      - { name: sample, label: Fictional sample, widget: boolean, default: false }
+      - { name: edition, label: Edition, widget: string }
+      - { name: year, label: Year, widget: number, value_type: int, min: 2017, max: 2100 }
+      - { name: description, label: Description, widget: text }
+      - name: cover
+        label: Cover image
+        widget: object
+        required: false
+        fields:
+          - { name: src, label: Image, widget: image }
+          - { name: alt, label: Alt text, widget: string }
+          - { name: caption, label: Caption, widget: string, required: false }
+          - { name: width, label: Width in pixels, widget: number, value_type: int, min: 1, required: false }
+          - { name: height, label: Height in pixels, widget: number, value_type: int, min: 1, required: false }
+      - { name: pdf, label: Issue PDF, widget: file, required: false }
+      - name: articles
+        label: Article titles
+        widget: list
+        required: false
+        field: { name: article, label: Article title, widget: string }
+      - { name: body, label: Issue notes, widget: markdown, required: false }

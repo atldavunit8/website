@@ -1,0 +1,30 @@
+---
+import { atlEmail, hostedForm } from '../lib/enquiry';
+
+interface Props {
+  title: string;
+  description: string;
+  subject: string;
+}
+
+const { title, description, subject } = Astro.props;
+const emailHref = `mailto:${atlEmail}?subject=${encodeURIComponent(subject)}`;
+---
+
+<section class:list={['enquiry-route', { 'enquiry-route--with-form': Boolean(hostedForm) }]} aria-labelledby="enquiry-route-heading">
+  <div class="enquiry-route__copy">
+    <p class="eyebrow">Get in touch</p>
+    <h2 id="enquiry-route-heading">{title}</h2>
+    <p>{description}</p>
+    <a class="button button--saffron" href={emailHref}>Email the ATL</a>
+    <p class="enquiry-route__address">Or write to <a href={`mailto:${atlEmail}`}>{atlEmail}</a></p>
+    <p class="enquiry-route__help">The email link opens your mail app. Your message is sent only when you press Send there. If the app does not open, copy the address above and email us from your inbox. Check your Sent folder to confirm delivery from your account.</p>
+    <p class="enquiry-route__privacy">By emailing us, you choose what details to share. Please avoid sending passwords, payment information or sensitive student details.</p>
+  </div>
+  {hostedForm && <div class="enquiry-route__form">
+    <h3>Use the enquiry form</h3>
+    <p>This form is hosted by an external provider. The information you enter is sent to that provider and the school. Use the email address above if the form is unavailable.</p>
+    <iframe src={hostedForm.embedUrl} title={`${title} form`} loading="lazy" referrerpolicy="strict-origin-when-cross-origin" sandbox="allow-forms allow-scripts allow-same-origin allow-popups"></iframe>
+    <a href={hostedForm.openUrl} target="_blank" rel="noopener noreferrer">Open form in a new tab <span aria-hidden="true">↗</span></a>
+  </div>}
+</section>

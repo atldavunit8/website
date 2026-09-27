@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="220" viewBox="0 0 980 220" role="img" aria-labelledby="title desc">
+  <title id="title">Atal Tinkering Lab, DAV Public School, Unit-VIII</title>
+  <desc id="desc">ATL identity mark: an open book and a circuit-inspired letter A, with an ochre spark.</desc>
+  <g transform="translate(20 20)">
+    <rect width="180" height="180" rx="24" fill="#263C49"/>
+    <path d="M48 112 90 42 132 112M65 85H115" fill="none" stroke="#F7F2E4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M90 143C74 130 57 125 35 127V147C56 145 74 151 90 160C106 151 124 145 145 147V127C123 125 106 130 90 143Z" fill="#4E7C6C"/>
+    <path d="M90 143V160" stroke="#263C49" stroke-width="4"/>
+    <path d="M120 58H144V80" fill="none" stroke="#B24F2C" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="144" cy="84" r="7" fill="#B24F2C"/>
+    <circle cx="90" cy="38" r="10" fill="#C6982E"/>
+  </g>
+  <g fill="#263C49" font-family="'Fraunces', Georgia, serif">
+    <text x="230" y="118" font-size="66" font-weight="600" letter-spacing="-0.01em">Atal Tinkering Lab</text>
+  </g>
+  <g fill="#4A453C" font-family="'Public Sans', 'Helvetica Neue', Arial, sans-serif">
+    <text x="233" y="164" font-size="32" font-weight="700" letter-spacing="0.01em">DAV Public School, Unit-VIII</text>
+  </g>
+</svg>

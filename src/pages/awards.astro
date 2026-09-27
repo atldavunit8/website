@@ -1,0 +1,123 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AwardCard from '../components/AwardCard.astro';
+import { isPublished } from '../lib/content';
+
+type Award = CollectionEntry<'awards'>;
+const awardYearKey = (award: Award) => award.data.academicYear ?? String(award.data.year ?? award.data.date?.slice(0, 4) ?? 'Year not supplied');
+const [publishedAwards, projects] = await Promise.all([
+  getCollection('awards', isPublished),
+  getCollection('projects', isPublished),
+]);
+const yearRank = (key: string) => Number.parseInt(key, 10) || 0;
+const awards = [...publishedAwards].sort((a, b) =>
+  yearRank(awardYearKey(b)) - yearRank(awardYearKey(a)) ||
+  a.data.title.localeCompare(b.data.title),
+);
+const yearKeys = [...new Set(awards.map(awardYearKey))].sort((a, b) =>
+  yearRank(b) - yearRank(a),
+);
+const levels = ['School', 'District', 'Regional', 'State', 'National', 'International', 'Level not specified'];
+const types = ['Award', 'Selection', 'Participation', 'Grant', 'Recognition'];
+const projectById = new Map(projects.map((project) => [project.id, project]));
+const featured = awards.filter((award) => award.data.featured && award.data.achievementType === 'Award');
+---
+
+<BaseLayout title="Achievements and Awards" description="Browse published awards and achievements from the Atal Tinkering Lab at DAV Public School, Unit-VIII." noindex={false}>
+  <header class="projects-intro">
+    <p class="eyebrow">Student achievements</p>
+    <h1>Achievements & Awards</h1>
+    <p>Explore ATL results by year, level and achievement type. An award win, selection, grant or recognition keeps its own label.</p>
+  </header>
+
+  <section class="awards-archive" aria-labelledby="awards-archive-heading">
+    <div class="projects-section__heading">
+      <h2 id="awards-archive-heading">Published records</h2>
+      <p id="award-result-count" aria-live="polite">{awards.length} {awards.length === 1 ? 'record' : 'records'} shown</p>
+    </div>
+
+    {awards.length > 0 ? (
+      <>
+        <div class="award-filters" data-award-filters hidden>
+          <div><label for="award-year-filter">Year</label><select id="award-year-filter"><option value="all">All years</option>{yearKeys.map((key) => <option value={key}>{key}</option>)}</select></div>
+          <div><label for="award-level-filter">Level</label><select id="award-level-filter"><option value="all">All levels</option>{levels.map((value) => <option value={value}>{value}</option>)}</select></div>
+          <div><label for="award-type-filter">Achievement</label><select id="award-type-filter"><option value="all">All types</option>{types.map((value) => <option value={value}>{value}</option>)}</select></div>
+          <button type="button" class="award-filters__reset" data-award-reset>Clear filters</button>
+        </div>
+
+        <div class="award-groups">
+          {yearKeys.map((key) => (
+            <section class="award-group" data-award-group aria-labelledby={`award-year-${key.replace(/[^a-z0-9]/gi, '-')}`}>
+              <h3 id={`award-year-${key.replace(/[^a-z0-9]/gi, '-')}`}>{key}</h3>
+              <div class="award-grid">
+                {awards.filter((award) => awardYearKey(award) === key).map((award) => (
+                  <div class="award-grid__item" data-award-year={key} data-award-level={award.data.level ?? 'Level not specified'} data-award-type={award.data.achievementType}>
+                    <AwardCard award={award} project={projectById.get(award.data.projectId ?? '')} />
+                  </div>
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
+        <p class="projects-empty" data-award-empty hidden>No records match these filters. Clear filters to see the full archive.</p>
+      </>
+    ) : (
+      <p class="projects-empty">Achievement records are being prepared.</p>
+    )}
+  </section>
+
+  {featured.length > 0 && (
+    <section class="awards-wall" aria-labelledby="awards-wall-heading">
+      <div class="section-topline">
+        <div class="section-heading"><p class="eyebrow">Wall of Fame</p><h2 id="awards-wall-heading">Featured wins</h2></div>
+        <a class="text-link" href="/projects/featured/">Explore featured projects <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="award-wall-grid">
+        {featured.map((award) => (
+          <article class="award-wall-card">
+            <span class="badge badge--category">{award.data.level ?? 'Award'}</span>
+            <h3>{award.data.result}</h3>
+            <p>{award.data.competition ?? award.data.organiser}</p>
+            {(award.data.academicYear || award.data.year || award.data.date) && <p class="award-wall-card__year">{award.data.academicYear ?? award.data.year ?? award.data.date}</p>}
+            {projectById.get(award.data.projectId ?? '') && <a class="text-link" href={`/projects/${award.data.projectId}/`}>{projectById.get(award.data.projectId ?? '')?.data.title} <span aria-hidden="true">→</span></a>}
+          </article>
+        ))}
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<script>
+  const filters = document.querySelector<HTMLElement>('[data-award-filters]');
+  const yearSelect = document.querySelector<HTMLSelectElement>('#award-year-filter');
+  const levelSelect = document.querySelector<HTMLSelectElement>('#award-level-filter');
+  const typeSelect = document.querySelector<HTMLSelectElement>('#award-type-filter');
+  const resetButton = document.querySelector<HTMLButtonElement>('[data-award-reset]');
+  const cards = [...document.querySelectorAll<HTMLElement>('[data-award-year]')];
+  const groups = [...document.querySelectorAll<HTMLElement>('[data-award-group]')];
+  const count = document.querySelector<HTMLElement>('#award-result-count');
+  const empty = document.querySelector<HTMLElement>('[data-award-empty]');
+
+  if (filters && yearSelect && levelSelect && typeSelect && resetButton && cards.length && count && empty) {
+    filters.hidden = false;
+    const applyFilters = () => {
+      let visible = 0;
+      for (const card of cards) {
+        card.hidden = (yearSelect.value !== 'all' && card.dataset.awardYear !== yearSelect.value) ||
+          (levelSelect.value !== 'all' && card.dataset.awardLevel !== levelSelect.value) ||
+          (typeSelect.value !== 'all' && card.dataset.awardType !== typeSelect.value);
+        if (!card.hidden) visible += 1;
+      }
+      for (const group of groups) group.hidden = !group.querySelector('[data-award-year]:not([hidden])');
+      count.textContent = `${visible} ${visible === 1 ? 'record' : 'records'} shown`;
+      empty.hidden = visible !== 0;
+    };
+    for (const select of [yearSelect, levelSelect, typeSelect]) select.addEventListener('change', applyFilters);
+    resetButton.addEventListener('click', () => {
+      yearSelect.value = levelSelect.value = typeSelect.value = 'all';
+      applyFilters();
+      yearSelect.focus();
+    });
+  }
+</script>

@@ -1,0 +1,43 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { isPublished } from '../../lib/content';
+import { competitionState } from '../../lib/competition';
+import { formatDate } from '../../lib/dates';
+
+interface Props { competition: CollectionEntry<'competitions'> }
+
+export async function getStaticPaths() {
+  const entries = await getCollection('competitions', isPublished);
+  return entries.map((competition) => ({ params: { slug: competition.id }, props: { competition } }));
+}
+
+const { competition } = Astro.props;
+const { Content } = await render(competition);
+const { title, organiser, summary, eligibility, announcedAt, deadline, officialUrl, registrationUrl, image, attachment } = competition.data;
+const status = competitionState(deadline);
+---
+
+<BaseLayout title={title} description={summary} noindex={false}>
+  <nav class="project-breadcrumbs" aria-label="Breadcrumb"><a href="/competitions/">Competitions</a><span aria-hidden="true">/</span><span aria-current="page">{title}</span></nav>
+  <article class="editorial-detail" data-competition-deadline={deadline ?? ''}>
+    <header class="editorial-detail__header"><span class="badge badge--status" data-competition-status>{status}</span><h1>{title}</h1><p>{summary}</p><p class="editorial-detail__source">Organiser: {organiser}</p></header>
+    {image && <figure class="editorial-detail__hero"><img src={image.src} alt={image.alt} width={image.width ?? 1200} height={image.height ?? 675} decoding="async" />{image.caption && <figcaption>{image.caption}</figcaption>}</figure>}
+    <dl class="editorial-facts"><div><dt>Deadline</dt><dd>{deadline ? <time datetime={deadline}>{formatDate(deadline)}</time> : 'Not listed'}</dd></div>{announcedAt && <div><dt>Announced</dt><dd><time datetime={announcedAt}>{formatDate(announcedAt)}</time></dd></div>}{eligibility && <div><dt>Eligibility</dt><dd>{eligibility}</dd></div>}</dl>
+    <div class="editorial-detail__prose"><Content /></div>
+    <div class="editorial-detail__resources"><h2>Official links & resources</h2>{officialUrl ? <a href={officialUrl} target="_blank" rel="noopener noreferrer">Official competition page <span aria-hidden="true">↗</span></a> : <p>Official link not listed in this notice.</p>}{registrationUrl && <a href={registrationUrl} target="_blank" rel="noopener noreferrer" data-registration-link hidden={status === 'Closed'}>{deadline ? 'Registration link' : 'Registration link — check the official deadline'} <span aria-hidden="true">↗</span></a>}{attachment && <a href={attachment} download>Download notice</a>}</div>
+    {deadline && <p class="editorial-detail__note">Deadline status is based on the date in India. Confirm any late changes on the official page.</p>}
+  </article>
+</BaseLayout>
+
+<script>
+  import { competitionState, indiaToday } from '../../lib/competition';
+  const root = document.querySelector<HTMLElement>('[data-competition-deadline]');
+  if (root) {
+    const state = competitionState(root.dataset.competitionDeadline || undefined, indiaToday());
+    const badge = root.querySelector<HTMLElement>('[data-competition-status]');
+    const registration = root.querySelector<HTMLAnchorElement>('[data-registration-link]');
+    if (badge) badge.textContent = state;
+    if (registration) registration.hidden = state === 'Closed';
+  }
+</script>

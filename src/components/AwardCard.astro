@@ -1,0 +1,47 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  award: CollectionEntry<'awards'>;
+  project?: CollectionEntry<'projects'>;
+}
+
+const { award, project } = Astro.props;
+const { title, achievementType, result, competition, organiser, level, date, academicYear, year, students, certificate, officialResultUrl, photos } = award.data;
+const when = date ?? academicYear ?? year;
+const hasDetails = Boolean(competition || project || students.length > 0 || photos.length > 0 || certificate || officialResultUrl);
+---
+
+<details class="award-card">
+  <summary class="award-card__front">
+    <div class="award-card__meta">
+      <span class="badge badge--category">{achievementType}</span>
+      <span class="badge badge--status">{level ?? 'Level not specified'}</span>
+    </div>
+    <h4>{title}</h4>
+    <p class="award-card__result"><strong>{result}</strong> · {competition ?? organiser}</p>
+    {when && <p class="award-card__when">{date ? 'Date' : academicYear ? 'Academic year' : 'Year'}: {when}</p>}
+    {hasDetails && <span class="award-card__toggle" aria-hidden="true">Tap for details <span class="award-card__chevron">⌄</span></span>}
+  </summary>
+  <div class="award-card__back">
+    {competition && <p class="award-card__organiser">Organiser: {organiser}</p>}
+    {project && <p class="award-card__project">Project: <a href={`/projects/${project.id}/`}>{project.data.title}</a></p>}
+    {students.length > 0 && <p class="award-card__students">Students: {students.join(', ')}</p>}
+    {photos.length > 0 && (
+      <div class="award-card__photos">
+        {photos.map((photo) => (
+          <figure>
+            <img src={photo.src} alt={photo.alt} width={photo.width ?? 800} height={photo.height ?? 600} loading="lazy" decoding="async" />
+            {photo.caption && <figcaption>{photo.caption}</figcaption>}
+          </figure>
+        ))}
+      </div>
+    )}
+    {(certificate || officialResultUrl) && (
+      <div class="award-card__links">
+        {certificate && <a href={certificate} download>Download certificate</a>}
+        {officialResultUrl && <a href={officialResultUrl} target="_blank" rel="noopener noreferrer">Official result <span aria-hidden="true">↗</span></a>}
+      </div>
+    )}
+  </div>
+</details>

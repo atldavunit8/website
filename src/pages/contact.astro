@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EnquiryRoute from '../components/EnquiryRoute.astro';
+---
+
+<BaseLayout title="Contact" description="Contact the Atal Tinkering Lab at DAV Public School, Unit-VIII, Bhubaneswar." noindex={false}>
+  <header class="projects-intro contact-intro"><p class="eyebrow">Contact</p><h1>Talk to the ATL</h1><p>Questions about the lab, its projects or a possible collaboration can be sent to the ATL email address.</p></header>
+
+  <div class="contact-layout">
+    <section class="contact-details" aria-labelledby="contact-details-heading">
+      <h2 id="contact-details-heading">Contact details</h2>
+      <div class="contact-details__grid">
+        <div class="contact-detail-card"><h3>ATL enquiries</h3><p><a href="mailto:atldavunit8@gmail.com">atldavunit8@gmail.com</a></p><p>Mentor: Tanmay Kumar Nayak</p></div>
+        <div class="contact-detail-card"><h3>School office</h3><p><a href="tel:06742391328">0674-2391328</a></p><p>This is the school office number.</p></div>
+      </div>
+    </section>
+    <section class="location-panel" aria-labelledby="location-heading">
+      <h2 id="location-heading">Find the school</h2>
+      <address>DAV Public School, Unit-VIII<br />P.O. Nayapalli, Bhubaneswar<br />Khordha, Odisha 751012</address>
+      <a href="https://davunit8.org/CA8D76EA-61E5-4A14-A115-DB71B217F4CB/CMS/Page/Contact-Us" target="_blank" rel="noopener noreferrer">Official school contact page <span aria-hidden="true">↗</span></a>
+      <div class="location-panel__map-slot" data-map-embed-slot hidden aria-label="Map embed slot"></div>
+    </section>
+  </div>
+
+  <EnquiryRoute title="Send an ATL enquiry" description="Tell us briefly what you are contacting the lab about and how we can reply." subject="ATL enquiry" />
+  <p class="contact-crosslink">Have a partnership idea? <a href="/collaborate/">Explore ways to collaborate <span aria-hidden="true">→</span></a></p>
+</BaseLayout>

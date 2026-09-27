@@ -1,0 +1,63 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EditorialCard from '../components/EditorialCard.astro';
+import { isPublished } from '../lib/content';
+import { competitionState, competitionSortKey } from '../lib/competition';
+import { formatDate } from '../lib/dates';
+
+const competitions = (await getCollection('competitions', isPublished)).sort((a, b) => {
+  const aRank = competitionState(a.data.deadline) === 'Closed' ? 1 : 0;
+  const bRank = competitionState(b.data.deadline) === 'Closed' ? 1 : 0;
+  return aRank - bRank || competitionSortKey(a.data.deadline).localeCompare(competitionSortKey(b.data.deadline)) || a.data.title.localeCompare(b.data.title);
+});
+---
+
+<BaseLayout title="Competitions" description="Published student competitions, deadlines and official links from the ATL." noindex={competitions.length === 0}>
+  <header class="projects-intro"><p class="eyebrow">Take part</p><h1>Competitions</h1><p>Find published opportunities and check the official source before registering.</p><nav class="editorial-links" aria-label="Explore updates"><a href="/news/">News</a><a href="/schemes/">Schemes</a></nav></header>
+  <section class="projects-section" aria-labelledby="competitions-list-heading">
+    <div class="projects-section__heading"><h2 id="competitions-list-heading">Competition notices</h2><p id="competition-result-count" aria-live="polite">{competitions.length} {competitions.length === 1 ? 'notice' : 'notices'} shown</p></div>
+    {competitions.length > 0 ? <>
+      <div class="project-filters" role="group" aria-label="Filter competitions by status" data-competition-filters hidden>
+        {['All', 'Open', 'Closed', 'Deadline not listed'].map((status) => <button type="button" class="project-filter" data-competition-filter={status} aria-pressed={status === 'All' ? 'true' : 'false'}>{status}</button>)}
+      </div>
+      <div class="editorial-grid">
+        {competitions.map((entry) => <div data-competition-deadline={entry.data.deadline ?? ''} data-competition-state={competitionState(entry.data.deadline)}>
+          <EditorialCard title={entry.data.title} summary={entry.data.summary} href={`/competitions/${entry.id}/`} eyebrow={entry.data.organiser} status={competitionState(entry.data.deadline)} meta={entry.data.deadline ? `Deadline: ${formatDate(entry.data.deadline)}` : 'Deadline not listed'} image={entry.data.image} />
+        </div>)}
+      </div>
+      <p class="projects-empty" data-competition-empty hidden>No notices match this status.</p>
+    </> : <p class="projects-empty">Competition notices and official links will appear here when their details are ready.</p>}
+  </section>
+</BaseLayout>
+
+<script>
+  import { competitionState, indiaToday } from '../lib/competition';
+  const cards = [...document.querySelectorAll<HTMLElement>('[data-competition-deadline]')];
+  const filters = document.querySelector<HTMLElement>('[data-competition-filters]');
+  const count = document.querySelector<HTMLElement>('#competition-result-count');
+  const empty = document.querySelector<HTMLElement>('[data-competition-empty]');
+  if (cards.length && filters && count && empty) {
+    const today = indiaToday();
+    for (const card of cards) {
+      const state = competitionState(card.dataset.competitionDeadline || undefined, today);
+      card.dataset.competitionState = state;
+      const badge = card.querySelector<HTMLElement>('.badge--status');
+      if (badge) badge.textContent = state;
+    }
+    filters.hidden = false;
+    filters.addEventListener('click', (event) => {
+      const button = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-competition-filter]');
+      if (!button || !filters.contains(button)) return;
+      const status = button.dataset.competitionFilter;
+      let visible = 0;
+      for (const card of cards) {
+        card.hidden = status !== 'All' && card.dataset.competitionState !== status;
+        if (!card.hidden) visible++;
+      }
+      for (const option of filters.querySelectorAll<HTMLButtonElement>('[data-competition-filter]')) option.setAttribute('aria-pressed', String(option === button));
+      count.textContent = `${visible} ${visible === 1 ? 'notice' : 'notices'} shown`;
+      empty.hidden = visible !== 0;
+    });
+  }
+</script>

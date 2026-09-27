@@ -1,0 +1,87 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { isPublished } from '../lib/content';
+
+const categories = ['All', 'Robotics', 'AI & IoT', 'Sustainability', 'Health & Safety', 'Social Innovation'] as const;
+const projects = (await getCollection('projects', isPublished)).sort(
+  (a, b) => (b.data.year ?? 0) - (a.data.year ?? 0) || a.data.title.localeCompare(b.data.title),
+);
+---
+
+<BaseLayout title="Projects" description="Explore student innovations from the Atal Tinkering Lab at DAV Public School, Unit-VIII, Bhubaneswar." noindex={false}>
+  <header class="projects-intro">
+    <p class="eyebrow">Ideas into action</p>
+    <h1>Our projects</h1>
+    <p>Explore ideas and prototypes from ATL students, from water conservation to assistive technology.</p>
+    <a class="text-link" href="/projects/featured/">Projects That Made Us Proud <span aria-hidden="true">→</span></a>
+  </header>
+
+  <section class="projects-section" aria-labelledby="projects-list-heading">
+    <div class="projects-section__heading">
+      <h2 id="projects-list-heading">Explore the archive</h2>
+      <p id="project-result-count" aria-live="polite">{projects.length} {projects.length === 1 ? 'project' : 'projects'} shown</p>
+    </div>
+
+    {projects.length > 0 ? (
+      <>
+        <div class="project-filters" role="group" aria-label="Filter projects by category" data-project-filters hidden>
+          {categories.map((category) => (
+            <button
+              class="project-filter"
+              type="button"
+              data-filter-category={category}
+              aria-pressed={category === 'All' ? 'true' : 'false'}
+            >{category}</button>
+          ))}
+        </div>
+        <div class="card-grid project-listing" id="project-listing">
+          {projects.map((project) => (
+            <div class="project-listing__item" data-project-category={project.data.category}>
+              <ProjectCard
+                title={project.data.title}
+                summary={project.data.summary}
+                category={project.data.category}
+                status={project.data.status}
+                year={project.data.year}
+                image={project.data.cover}
+                href={`/projects/${project.id}/`}
+              />
+            </div>
+          ))}
+        </div>
+        <p class="projects-empty" data-project-empty hidden>No projects in this category yet. Choose another category or show all projects.</p>
+      </>
+    ) : (
+      <p class="projects-empty">Project records are being prepared.</p>
+    )}
+  </section>
+</BaseLayout>
+
+<script>
+  const filters = document.querySelector<HTMLElement>('[data-project-filters]');
+  const cards = [...document.querySelectorAll<HTMLElement>('[data-project-category]')];
+  const resultCount = document.querySelector<HTMLElement>('#project-result-count');
+  const emptyMessage = document.querySelector<HTMLElement>('[data-project-empty]');
+
+  if (filters && cards.length && resultCount && emptyMessage) {
+    filters.hidden = false;
+    filters.addEventListener('click', (event) => {
+      const button = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-filter-category]');
+      if (!button || !filters.contains(button)) return;
+
+      const category = button.dataset.filterCategory;
+      let visible = 0;
+      for (const card of cards) {
+        card.hidden = category !== 'All' && card.dataset.projectCategory !== category;
+        if (!card.hidden) visible += 1;
+      }
+      for (const option of filters.querySelectorAll<HTMLButtonElement>('[data-filter-category]')) {
+        option.setAttribute('aria-pressed', String(option === button));
+      }
+      resultCount.textContent = `${visible} ${visible === 1 ? 'project' : 'projects'} shown`;
+      emptyMessage.hidden = visible !== 0;
+    });
+  }
+</script>

@@ -1,0 +1,45 @@
+---
+import logoUrl from '../../assets/branding/atl-logo.svg?url';
+
+const path = Astro.url.pathname;
+const links = [
+  { href: '/', label: 'Home' },
+  { href: '/about-atl/', label: 'About ATL' },
+  { href: '/leadership/', label: 'Leadership Messages' },
+  { href: '/projects/', label: 'Projects' },
+  { href: '/awards/', label: 'Achievements & Awards' },
+  { href: '/gallery/', label: 'Gallery' },
+  { href: '/news/', label: 'News & Competitions' },
+  { href: '/publications/', label: 'Publications' },
+  { href: '/collaborate/', label: 'Collaborate' },
+  { href: '/contact/', label: 'Contact' },
+];
+
+const current = (href: string) => {
+  if (href === '/') return path === '/';
+  if (href === '/gallery/') return path.startsWith('/events/') || path.startsWith('/gallery/');
+  if (href === '/news/') return path.startsWith('/news/') || path.startsWith('/competitions/') || path.startsWith('/schemes/');
+  return path.startsWith(href);
+};
+---
+<header class="site-header">
+  <div class="site-header__top">
+    <a class="site-header__brand" href="/" aria-label="ATL, DAV Public School, Unit-VIII — Home">
+      <img src={logoUrl} width="460" height="103" alt="" />
+    </a>
+    <div class="site-header__actions">
+      <a class="site-header__search" href="/search/">Search</a>
+      <a class="site-header__updates" href="/news/">Latest Updates</a>
+    </div>
+  </div>
+  <nav class="site-header__desktop" aria-label="Main navigation">
+    {links.map(({ href, label }) => <a href={href} aria-current={current(href) ? 'page' : undefined}>{label}</a>)}
+  </nav>
+  <details class="site-header__mobile">
+    <summary>Menu</summary>
+    <nav aria-label="Mobile navigation">
+      {links.map(({ href, label }) => <a href={href} aria-current={current(href) ? 'page' : undefined}>{label}</a>)}
+      <a href="/search/">Search</a>
+    </nav>
+  </details>
+</header>

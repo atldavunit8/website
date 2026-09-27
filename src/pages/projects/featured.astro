@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AwardProjectFeature from '../../components/AwardProjectFeature.astro';
+import { isPublished } from '../../lib/content';
+import { getAwardWinningProjects } from '../../lib/home';
+
+const [projects, awards] = await Promise.all([
+  getCollection('projects', isPublished),
+  getCollection('awards', isPublished),
+]);
+const features = getAwardWinningProjects(projects, awards).filter(({ awards: linkedAwards }) => linkedAwards.some((award) => award.data.featured));
+---
+
+<BaseLayout title="Projects That Made Us Proud" description="Explore award-winning student innovations from the Atal Tinkering Lab at DAV Public School, Unit-VIII." noindex={features.length === 0}>
+  <header class="projects-intro">
+    <p class="eyebrow">Student achievements</p>
+    <h1>Projects That Made Us Proud</h1>
+    <p>Ideas from our ATL that earned awards at science fairs and innovation competitions.</p>
+    <a class="text-link" href="/projects/">Browse all projects <span aria-hidden="true">→</span></a>
+  </header>
+
+  {features.length > 0 ? (
+    <div class="award-feature-list">
+      {features.map(({ project, awards: linkedAwards }) => <AwardProjectFeature project={project} awards={linkedAwards} />)}
+    </div>
+  ) : (
+    <p class="projects-empty">Featured award-winning projects are being prepared.</p>
+  )}
+</BaseLayout>

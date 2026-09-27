@@ -1,0 +1,133 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import EmptyState from '../components/EmptyState.astro';
+import LeadershipMessage from '../components/LeadershipMessage.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import Testimonials from '../components/Testimonials.astro';
+import { atlEmail } from '../lib/enquiry';
+import { isPublished } from '../lib/content';
+import { awardLevels, getAwardTotals, getAwardWinningProjects } from '../lib/home';
+
+const [projects, awards, leadership, news, competitions, events, publications] = await Promise.all([
+  getCollection('projects', isPublished),
+  getCollection('awards', isPublished),
+  getCollection('leadership', isPublished),
+  getCollection('news', isPublished),
+  getCollection('competitions', isPublished),
+  getCollection('events', isPublished),
+  getCollection('publications', isPublished),
+]);
+
+const currentProjects = projects
+  .filter((project) => ['Idea', 'Prototype', 'Testing'].includes(project.data.status ?? ''))
+  .sort((a, b) => Number(b.data.featured) - Number(a.data.featured) || (b.data.year ?? 0) - (a.data.year ?? 0))
+  .slice(0, 3);
+const awardWinningProjects = getAwardWinningProjects(projects, awards)
+  .filter(({ awards: linkedAwards }) => linkedAwards.some((award) => award.data.featured))
+  .slice(0, 3);
+const awardTotals = getAwardTotals(awards);
+const publishedAwardWins = awards.filter((award) => award.data.achievementType === 'Award').length;
+const principal = leadership.find((entry) => /principal/i.test(entry.data.designation));
+const atlInCharge = leadership.find((entry) => /atl (in[ -]?charge|mentor)|^mentor$/i.test(entry.data.designation));
+const recentNews = [...news].sort((a, b) => (b.data.publishedAt ?? '').localeCompare(a.data.publishedAt ?? '')).slice(0, 2);
+const upcomingCompetitions = [...competitions].sort((a, b) => (a.data.deadline ?? '9999').localeCompare(b.data.deadline ?? '9999')).slice(0, 2);
+const recentEvents = [...events].sort((a, b) => (b.data.date ?? String(b.data.year ?? '')).localeCompare(a.data.date ?? String(a.data.year ?? ''))).slice(0, 3);
+const latestPublications = [...publications].sort((a, b) => b.data.year - a.data.year).slice(0, 2);
+---
+<BaseLayout title="Home" description="Explore the Atal Tinkering Lab at DAV Public School, Unit-VIII, Bhubaneswar: projects, achievements, opportunities and collaboration." noindex={false}>
+  <section class="hero" aria-labelledby="home-title">
+    <div class="hero__copy">
+      <p class="hero__eyebrow"><span class="hero__spark" aria-hidden="true">✦</span> DAV Public School · Unit-VIII · Bhubaneswar</p>
+      <h1 id="home-title">Imagine.<br /><em>Build.</em><br />Make a difference.</h1>
+      <p class="hero__description">Welcome to our Atal Tinkering Lab, where ideas take shape through curiosity, making and problem solving.</p>
+      <div class="hero__actions">
+        <a class="button button--saffron" href="/projects/">Explore projects <span aria-hidden="true">↗</span></a>
+        <a class="button button--outline-light" href="/awards/">View achievements</a>
+      </div>
+    </div>
+    <div class="hero__art" aria-hidden="true">
+      <div class="hero__orbit hero__orbit--one"></div><div class="hero__orbit hero__orbit--two"></div>
+      <div class="hero__art-card hero__art-card--top"><span>01</span><strong>Explore</strong><i></i></div>
+      <div class="hero__art-core"><span>ATL</span><small>IDEA → IMPACT</small></div>
+      <div class="hero__art-card hero__art-card--bottom"><span>02</span><strong>Create</strong><i></i></div>
+      <div class="hero__art-dot hero__art-dot--one"></div><div class="hero__art-dot hero__art-dot--two"></div>
+    </div>
+  </section>
+
+  <section class="home-section about-section" aria-labelledby="about-heading">
+    <div class="about-section__copy">
+      <SectionHeading eyebrow="About our ATL" title="A place to turn curiosity into ideas" id="about-heading" />
+      <p>At DAV Public School, Unit-VIII, Bhubaneswar, the ATL supports curiosity and innovation. The lab began in 2017.</p>
+      <p class="pending-note pending-note--inline">Full About ATL text: Content pending school approval.</p>
+      <a class="text-link" href="/about-atl/">Learn about our ATL <span aria-hidden="true">→</span></a>
+    </div>
+    <div class="about-section__visual" aria-hidden="true">
+      <div class="about-section__tile about-section__tile--blue">A<span>ask</span></div>
+      <div class="about-section__tile about-section__tile--saffron">T<span>try</span></div>
+      <div class="about-section__tile about-section__tile--teal">L<span>learn</span></div>
+    </div>
+  </section>
+
+  <section class="home-section" aria-labelledby="leadership-heading">
+    <SectionHeading eyebrow="Leadership" title="Messages from our educators" description="Thoughts on learning, innovation and the ATL journey." id="leadership-heading" />
+    <div class="leadership-grid">
+      <LeadershipMessage heading="Principal's Message" name={principal?.data.name} designation={principal?.data.designation} shortMessage={principal?.data.shortMessage} fullMessage={principal?.data.fullMessage} portrait={principal?.data.portrait} signature={principal?.data.signature} href="/leadership/" cardClass="leadership-card--principal" />
+      <LeadershipMessage heading="Mentor's Message" name={atlInCharge?.data.name} designation={atlInCharge?.data.designation} shortMessage={atlInCharge?.data.shortMessage} fullMessage={atlInCharge?.data.fullMessage} portrait={atlInCharge?.data.portrait} signature={atlInCharge?.data.signature} href="/leadership/" />
+    </div>
+  </section>
+
+  <section class="home-section metrics-section" aria-labelledby="metrics-heading">
+    <SectionHeading eyebrow="Impact" title="Achievements at a glance" description="These counts reflect published award wins currently in the archive. More achievements will be added as their records are prepared." id="metrics-heading" />
+    <div class="metrics-grid">
+      {awardLevels.map((level) => (
+        <div class="metric-card">
+          <span class="metric-card__number" aria-label={`${awardTotals[level]} ${level} award wins in the published archive`}>{awardTotals[level]}</span>
+          <h3>{level} wins recorded</h3>
+          <p>Among {publishedAwardWins} published award {publishedAwardWins === 1 ? 'win' : 'wins'}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="home-section" aria-labelledby="projects-heading">
+    <div class="section-topline"><SectionHeading eyebrow="On the workbench" title="Current projects" id="projects-heading" /><a class="text-link" href="/projects/">All projects <span aria-hidden="true">→</span></a></div>
+    {currentProjects.length ? <div class="card-grid">{currentProjects.map((project) => <ProjectCard title={project.data.title} summary={project.data.summary} category={project.data.category} status={project.data.status} year={project.data.year} image={project.data.cover} href={`/projects/${project.id}/`} />)}</div> : <EmptyState title="Current project updates are being prepared" description="Explore the project archive for earlier student innovations." />}
+  </section>
+
+  <section class="home-section showcase-section" aria-labelledby="showcase-heading">
+    <div class="section-topline"><SectionHeading eyebrow="Award-winning ideas" title="Projects That Made Us Proud" id="showcase-heading" /><a class="text-link" href="/projects/featured/">Explore the showcase <span aria-hidden="true">→</span></a></div>
+    {awardWinningProjects.length ? <div class="card-grid">{awardWinningProjects.map(({ project, awards: linkedAwards }) => <ProjectCard title={project.data.title} summary={project.data.summary} category={project.data.category} status={project.data.status} year={project.data.year} image={project.data.cover} recognition={`${linkedAwards[0].data.result} · ${linkedAwards[0].data.competition ?? linkedAwards[0].data.organiser}${linkedAwards.length > 1 ? ` · +${linkedAwards.length - 1} more` : ''}`} href={`/projects/${project.id}/`} />)}</div> : <EmptyState title="Award-winning projects are being prepared" description="Verified achievements from the supplied archive will be added here." />}
+  </section>
+
+  <section class="home-section" aria-labelledby="updates-heading">
+    <SectionHeading eyebrow="Stay connected" title="News & competitions" id="updates-heading" />
+    <div class="preview-grid">
+      <div class="preview-panel"><div class="preview-panel__head"><h3>Latest news</h3><a href="/news/">View news <span aria-hidden="true">→</span></a></div>{recentNews.length ? recentNews.map((item) => <div class="preview-item"><span class="badge badge--category">{item.data.category}</span><h4>{item.data.title}</h4><p>{item.data.summary}</p></div>) : <EmptyState title="News is being prepared" />}</div>
+      <div class="preview-panel"><div class="preview-panel__head"><h3>Competitions</h3><a href="/competitions/">View opportunities <span aria-hidden="true">→</span></a></div>{upcomingCompetitions.length ? upcomingCompetitions.map((item) => <div class="preview-item"><span class="badge badge--category">Competition</span><h4>{item.data.title}</h4><p>{item.data.summary}</p>{item.data.deadline && <p class="preview-item__date">Deadline: {item.data.deadline}</p>}</div>) : <EmptyState title="Competition notices are being prepared" />}</div>
+    </div>
+  </section>
+
+  <section class="home-section" aria-labelledby="events-heading">
+    <div class="section-topline"><SectionHeading eyebrow="Life in the lab" title="Gallery" id="events-heading" /><a class="text-link" href="/gallery/">Explore gallery <span aria-hidden="true">→</span></a></div>
+    {recentEvents.length ? <div class="card-grid">{recentEvents.map((event) => <article class="simple-card"><span class="simple-card__icon" aria-hidden="true">✦</span><p class="eyebrow">{event.data.date ?? event.data.year ?? 'Event'}</p><h3>{event.data.title}</h3><p>{event.data.summary}</p></article>)}</div> : <EmptyState title="Event stories are being prepared" />}
+  </section>
+
+  <section class="home-section" aria-labelledby="publications-heading">
+    <div class="section-topline"><SectionHeading eyebrow="Student voices" title="Tech Grooves" description="The ATL's technical magazine and future publications." id="publications-heading" /><a class="text-link" href="/publications/">View publications <span aria-hidden="true">→</span></a></div>
+    {latestPublications.length ? <div class="card-grid">{latestPublications.map((publication) => <article class="simple-card"><span class="simple-card__icon" aria-hidden="true">▤</span><p class="eyebrow">{publication.data.year} · {publication.data.edition}</p><h3>{publication.data.title}</h3><p>{publication.data.description}</p>{publication.data.pdf && <a class="text-link" href={publication.data.pdf}>Download PDF <span aria-hidden="true">↓</span></a>}</article>)}</div> : <EmptyState title="Tech Grooves issues are being prepared" />}
+  </section>
+
+  <Testimonials />
+
+  <section class="collaborate-banner" aria-labelledby="collaborate-heading">
+    <div><p class="eyebrow">Build with us</p><h2 id="collaborate-heading">Help an idea take its next step.</h2><p>Have skills, resources or a community challenge to share? Propose a mentorship, workshop or collaboration to the ATL.</p></div>
+    <a class="button button--saffron" href="/collaborate/">Propose a collaboration <span aria-hidden="true">→</span></a>
+  </section>
+
+  <section class="home-section contact-preview" aria-labelledby="contact-heading">
+    <div><SectionHeading eyebrow="Get in touch" title="Contact our ATL" id="contact-heading" /><p>DAV Public School, Unit-VIII<br />P.O. Nayapalli, Bhubaneswar, Odisha 751012</p><p>Mentor: Tanmay Kumar Nayak</p></div>
+    <div class="contact-preview__action"><span class="contact-preview__symbol" aria-hidden="true">@</span><p>Questions about the lab or a project?</p><a href={`mailto:${atlEmail}?subject=${encodeURIComponent('ATL enquiry')}`}>{atlEmail}</a><small>Opens your mail app. You can also copy this address.</small><span>School office: 0674-2391328</span><a class="text-link" href="/contact/">Full contact details <span aria-hidden="true">→</span></a></div>
+  </section>
+</BaseLayout>

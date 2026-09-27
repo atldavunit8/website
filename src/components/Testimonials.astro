@@ -1,0 +1,9 @@
+---
+import { publishedTestimonials as items } from '../lib/testimonials';
+---
+
+{items.length > 0 && <section class="testimonials" aria-labelledby="testimonials-heading">
+  <p class="eyebrow">Voices from the community</p>
+  <h2 id="testimonials-heading">Stories from our community</h2>
+  <div class="testimonials__grid">{items.map((item) => <figure><blockquote><p>{item.quote}</p></blockquote><figcaption>{item.attribution}</figcaption></figure>)}</div>
+</section>}
