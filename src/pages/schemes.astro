@@ -1,0 +1,19 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EditorialCard from '../components/EditorialCard.astro';
+import { isPublished } from '../lib/content';
+import { formatDate } from '../lib/dates';
+
+const schemes = (await getCollection('news', isPublished))
+  .filter((entry) => entry.data.category === 'Scheme')
+  .sort((a, b) => (b.data.publishedAt ?? '').localeCompare(a.data.publishedAt ?? ''));
+---
+
+<BaseLayout title="Schemes" description="Schemes and programmes shared by the Atal Tinkering Lab at DAV Public School, Unit-VIII." noindex={schemes.length === 0}>
+  <header class="projects-intro"><p class="eyebrow">Opportunities</p><h1>Schemes & programmes</h1><p>Explore published scheme information and follow each official source for full details.</p><nav class="editorial-links" aria-label="Explore updates"><a href="/news/">All news</a><a href="/competitions/">Competitions</a></nav></header>
+  <section class="projects-section" aria-labelledby="schemes-heading">
+    <div class="projects-section__heading"><h2 id="schemes-heading">Published schemes</h2><p>{schemes.length} {schemes.length === 1 ? 'scheme' : 'schemes'}</p></div>
+    {schemes.length > 0 ? <div class="editorial-grid">{schemes.map((entry) => <EditorialCard title={entry.data.title} summary={entry.data.summary} href={`/news/${entry.id}/`} eyebrow="Scheme" meta={entry.data.publishedAt ? formatDate(entry.data.publishedAt) : undefined} image={entry.data.image} />)}</div> : <p class="projects-empty">Scheme information will appear here when it is ready.</p>}
+  </section>
+</BaseLayout>

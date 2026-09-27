@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EnquiryRoute from '../components/EnquiryRoute.astro';
+import Testimonials from '../components/Testimonials.astro';
+
+const proposalTopics = [
+  { title: 'Mentorship & guest sessions', description: 'Share your experience with student innovators or propose a guest talk.' },
+  { title: 'Workshops & technical guidance', description: 'Suggest a practical learning session or guidance for a project area.' },
+  { title: 'Tools & equipment', description: 'Discuss material or equipment support for hands-on work.' },
+  { title: 'Research & community ideas', description: 'Explore a research question, school partnership or community challenge together.' },
+];
+---
+
+<BaseLayout title="Collaborate with the ATL" description="Suggest a mentorship, workshop, resource or community innovation collaboration with the ATL at DAV Public School, Unit-VIII." noindex={false}>
+  <header class="projects-intro collaborate-intro"><p class="eyebrow">Work with us</p><h1>Collaborate with the ATL</h1><p>Ideas from educators, researchers, organisations and community members can help students explore real problems. Tell us what you would like to propose.</p></header>
+
+  <section class="collaboration-options" aria-labelledby="collaboration-options-heading"><div class="section-heading"><h2 id="collaboration-options-heading">Topics you can propose</h2><p class="section-heading__description">These are conversation starters. The ATL and school will review each proposal individually.</p></div><div class="collaboration-options__grid">{proposalTopics.map((topic) => <article><h3>{topic.title}</h3><p>{topic.description}</p></article>)}</div></section>
+
+  <section class="collaboration-steps" aria-labelledby="collaboration-steps-heading"><h2 id="collaboration-steps-heading">How to start</h2><ol><li><strong>Describe your idea.</strong> Include the topic, what you could contribute and any timing that matters.</li><li><strong>Email the ATL.</strong> Use the official address below. You can include your organisation if relevant.</li><li><strong>Discuss next steps.</strong> The ATL In-charge can respond through the school's normal process.</li></ol></section>
+
+  <Testimonials />
+  <EnquiryRoute title="Propose a collaboration" description="Send a short note about your idea to the ATL In-charge, Tanmay Kumar Nayak." subject="ATL collaboration enquiry" />
+  <p class="contact-crosslink">Looking for general school contact details? <a href="/contact/">Visit the Contact page <span aria-hidden="true">→</span></a></p>
+</BaseLayout>

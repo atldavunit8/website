@@ -1,0 +1,23 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import LeadershipMessage from '../components/LeadershipMessage.astro';
+import { isPublished } from '../lib/content';
+
+const messages = (await getCollection('leadership', isPublished)).sort((a, b) => a.data.displayOrder - b.data.displayOrder);
+const principal = messages.find((entry) => /principal/i.test(entry.data.designation));
+const atlInCharge = messages.find((entry) => /atl in[ -]?charge/i.test(entry.data.designation));
+const others = messages.filter((entry) => entry !== principal && entry !== atlInCharge);
+---
+<BaseLayout title="Leadership Messages" description="Messages from the leadership of the Atal Tinkering Lab at DAV Public School, Unit-VIII.">
+  <div class="page-intro"><p class="eyebrow">Our school community</p><h1>Leadership messages</h1><p>Voices guiding curiosity, creativity and student innovation.</p></div>
+  <section class="home-section" aria-labelledby="leadership-main-heading">
+    <SectionHeading eyebrow="From our educators" title="A shared vision for learning" id="leadership-main-heading" />
+    <div class="leadership-grid">
+      <LeadershipMessage heading="Principal's Message" name={principal?.data.name} designation={principal?.data.designation} shortMessage={principal?.data.shortMessage} fullMessage={principal?.data.fullMessage} portrait={principal?.data.portrait} signature={principal?.data.signature} showFullMessage />
+      <LeadershipMessage heading="ATL In-charge's Message" name={atlInCharge?.data.name} designation={atlInCharge?.data.designation} shortMessage={atlInCharge?.data.shortMessage} fullMessage={atlInCharge?.data.fullMessage} portrait={atlInCharge?.data.portrait} signature={atlInCharge?.data.signature} showFullMessage />
+      {others.map((entry) => <LeadershipMessage heading={entry.data.designation} name={entry.data.name} designation={entry.data.designation} shortMessage={entry.data.shortMessage} fullMessage={entry.data.fullMessage} portrait={entry.data.portrait} signature={entry.data.signature} showFullMessage />)}
+    </div>
+  </section>
+</BaseLayout>

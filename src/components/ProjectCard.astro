@@ -1,0 +1,29 @@
+---
+interface Props {
+  title: string;
+  summary: string;
+  category: string;
+  status?: string;
+  year?: number;
+  image?: { src: string; alt: string };
+  recognition?: string;
+  href?: string;
+}
+
+const { title, summary, category, status, year, image, recognition, href } = Astro.props;
+---
+<article class="project-card">
+  <div class="project-card__media">
+    {image ? <img src={image.src} alt={image.alt} loading="lazy" width="640" height="400" /> : <span aria-hidden="true">✦</span>}
+  </div>
+  <div class="project-card__body">
+    <div class="project-card__meta">
+      <span class="badge badge--category">{category}</span>
+      <span class="badge badge--status">{status ?? 'Status not specified'}</span>
+    </div>
+    <h3>{href ? <a href={href}>{title}</a> : title}</h3>
+    <p>{summary}</p>
+    {recognition && <p class="project-card__recognition">{recognition}</p>}
+    {year && <p class="project-card__year">Project year: {year}</p>}
+  </div>
+</article>

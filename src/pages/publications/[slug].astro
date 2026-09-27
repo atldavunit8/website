@@ -1,0 +1,28 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { isPublished } from '../../lib/content';
+
+interface Props { issue: CollectionEntry<'publications'> }
+
+export async function getStaticPaths() {
+  const issues = await getCollection('publications', isPublished);
+  return issues.map((issue) => ({ params: { slug: issue.id }, props: { issue } }));
+}
+
+const { issue } = Astro.props;
+const { Content } = await render(issue);
+const { title, edition, year, description, cover, pdf, articles } = issue.data;
+---
+
+<BaseLayout title={title} description={description} noindex={false}>
+  <nav class="project-breadcrumbs" aria-label="Breadcrumb"><a href="/publications/">Tech Grooves</a><span aria-hidden="true">/</span><span aria-current="page">{title}</span></nav>
+  <article class="editorial-detail">
+    <header class="editorial-detail__header"><span class="badge badge--category">{edition}</span><h1>{title}</h1><p>{description}</p><span>{year}</span></header>
+    {cover && <figure class="editorial-detail__hero editorial-detail__hero--cover"><img src={cover.src} alt={cover.alt} width={cover.width ?? 800} height={cover.height ?? 1100} decoding="async" />{cover.caption && <figcaption>{cover.caption}</figcaption>}</figure>}
+    {pdf && <div class="editorial-detail__resources"><h2>Read this issue</h2><a href={pdf} target="_blank" rel="noopener noreferrer" type="application/pdf">View PDF in a new tab <span aria-hidden="true">↗</span></a><a href={pdf} download type="application/pdf">Download PDF</a></div>}
+    <div class="editorial-detail__prose"><Content /></div>
+    {articles.length > 0 && <section class="editorial-detail__section" aria-labelledby="issue-articles"><h2 id="issue-articles">In this issue</h2><ul>{articles.map((article) => <li>{article}</li>)}</ul></section>}
+    {!pdf && <p class="projects-empty">The PDF for this issue is being prepared.</p>}
+  </article>
+</BaseLayout>

@@ -1,0 +1,33 @@
+---
+interface Props {
+  heading: string;
+  name?: string;
+  designation?: string;
+  shortMessage?: string;
+  fullMessage?: string;
+  portrait?: { src: string; alt: string };
+  signature?: { src: string; alt: string };
+  href?: string;
+  showFullMessage?: boolean;
+}
+
+const { heading, name, designation, shortMessage, fullMessage, portrait, signature, href, showFullMessage = false } = Astro.props;
+---
+<article class="leadership-card">
+  <div class="leadership-card__visual">
+    {portrait ? <img src={portrait.src} alt={portrait.alt} loading="lazy" width="120" height="120" /> : <span aria-hidden="true">✦</span>}
+  </div>
+  <div class="leadership-card__body">
+    <p class="eyebrow">A word from our school</p>
+    <h3>{heading}</h3>
+    {shortMessage ? (
+      <>
+        <blockquote>{shortMessage}</blockquote>
+        {name && <p class="leadership-card__name">{name}{designation && <span> · {designation}</span>}</p>}
+        {fullMessage && showFullMessage && <p class="leadership-card__full-message">{fullMessage}</p>}
+        {signature && <img class="leadership-card__signature" src={signature.src} alt={signature.alt} loading="lazy" />}
+        {fullMessage && href && <a class="text-link" href={href}>Read the full message <span aria-hidden="true">→</span></a>}
+      </>
+    ) : <p class="pending-note">Content pending school approval.</p>}
+  </div>
+</article>

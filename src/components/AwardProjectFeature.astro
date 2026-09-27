@@ -1,0 +1,71 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  awards: CollectionEntry<'awards'>[];
+}
+
+const { project, awards } = Astro.props;
+const { title, summary, category, cover, gallery, teamPhoto, teamIntention, testimonial, mentorContribution, reportPdf, videoUrl } = project.data;
+const awardPhotos = awards.flatMap((award) => award.data.photos);
+const mainImage = cover ?? gallery[0] ?? awardPhotos[0];
+const additionalImages = [...gallery, ...awardPhotos].filter((image) => image.src !== mainImage?.src).slice(0, 2);
+const resultUrl = awards.find((award) => award.data.officialResultUrl)?.data.officialResultUrl;
+---
+
+<article class="award-feature">
+  <div class="award-feature__visual">
+    {mainImage ? (
+      <figure>
+        <img src={mainImage.src} alt={mainImage.alt} width={mainImage.width ?? 1000} height={mainImage.height ?? 650} loading="lazy" decoding="async" />
+        {mainImage.caption && <figcaption>{mainImage.caption}</figcaption>}
+      </figure>
+    ) : (
+      <div class="award-feature__visual-empty" aria-hidden="true"><span>ATL</span><small>{category}</small></div>
+    )}
+    {additionalImages.length > 0 && (
+      <div class="award-feature__gallery">
+        {additionalImages.map((image) => <img src={image.src} alt={image.alt} width={image.width ?? 500} height={image.height ?? 350} loading="lazy" decoding="async" />)}
+      </div>
+    )}
+  </div>
+
+  <div class="award-feature__body">
+    <p class="eyebrow">Award-winning project · {category}</p>
+    <h2><a href={`/projects/${project.id}/`}>{title}</a></h2>
+    <p class="award-feature__summary">{summary}</p>
+
+    <ul class="award-feature__results" aria-label="Awards won">
+      {awards.map((award) => (
+        <li>
+          <strong>{award.data.result}</strong>
+          <span>{award.data.competition ?? award.data.organiser}</span>
+          {(award.data.academicYear || award.data.year || award.data.date) && <small>{award.data.academicYear ?? award.data.year ?? award.data.date}</small>}
+        </li>
+      ))}
+    </ul>
+
+    {teamIntention && <div class="award-feature__detail"><h3>Team intention</h3><p>{teamIntention}</p></div>}
+    {mentorContribution && <div class="award-feature__detail"><h3>Mentor contribution</h3><p>{mentorContribution}</p></div>}
+    {testimonial && (
+      <blockquote class="award-feature__testimonial">
+        <p>“{testimonial.quote}”</p>
+        <cite>{testimonial.attribution}</cite>
+      </blockquote>
+    )}
+    {teamPhoto && (
+      <figure class="award-feature__team-photo">
+        <img src={teamPhoto.src} alt={teamPhoto.alt} width={teamPhoto.width ?? 320} height={teamPhoto.height ?? 320} loading="lazy" decoding="async" />
+        {teamPhoto.caption && <figcaption>{teamPhoto.caption}</figcaption>}
+      </figure>
+    )}
+
+    <div class="award-feature__links">
+      <a class="text-link" href={`/projects/${project.id}/`}>Explore the project <span aria-hidden="true">→</span></a>
+      {reportPdf && <a href={reportPdf} type="application/pdf" download>Download report (PDF)</a>}
+      {videoUrl && <a href={videoUrl} target="_blank" rel="noopener noreferrer">Watch video <span aria-hidden="true">↗</span></a>}
+      {resultUrl && <a href={resultUrl} target="_blank" rel="noopener noreferrer">Official result <span aria-hidden="true">↗</span></a>}
+    </div>
+  </div>
+</article>

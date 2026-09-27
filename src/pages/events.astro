@@ -1,0 +1,19 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EditorialCard from '../components/EditorialCard.astro';
+import { isPublished } from '../lib/content';
+import { formatDate } from '../lib/dates';
+
+const events = (await getCollection('events', isPublished)).sort((a, b) =>
+  (b.data.date ?? String(b.data.year ?? '')).localeCompare(a.data.date ?? String(a.data.year ?? '')) || a.data.title.localeCompare(b.data.title),
+);
+---
+
+<BaseLayout title="Events" description="Explore Atal Tinkering Lab events at DAV Public School, Unit-VIII." noindex={events.length === 0}>
+  <header class="projects-intro"><p class="eyebrow">Around the lab</p><h1>Events</h1><p>Discover ATL exhibitions, workshops and student gatherings.</p><a class="text-link" href="/gallery/">View event gallery <span aria-hidden="true">→</span></a></header>
+  <section class="projects-section" aria-labelledby="events-heading">
+    <div class="projects-section__heading"><h2 id="events-heading">Event archive</h2><p>{events.length} {events.length === 1 ? 'event' : 'events'}</p></div>
+    {events.length > 0 ? <div class="editorial-grid">{events.map((entry) => <EditorialCard title={entry.data.title} summary={entry.data.summary} href={`/events/${entry.id}/`} eyebrow="ATL event" meta={entry.data.date ? formatDate(entry.data.date) : entry.data.year ? String(entry.data.year) : undefined} image={entry.data.gallery[0]} />)}</div> : <p class="projects-empty">Event stories and photos will appear here when their details are ready.</p>}
+  </section>
+</BaseLayout>

@@ -1,0 +1,18 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EditorialCard from '../components/EditorialCard.astro';
+import { isPublished } from '../lib/content';
+
+const issues = (await getCollection('publications', isPublished)).sort((a, b) =>
+  b.data.year - a.data.year || a.data.edition.localeCompare(b.data.edition),
+);
+---
+
+<BaseLayout title="Tech Grooves and Publications" description="Read Tech Grooves, the ATL publication of DAV Public School, Unit-VIII." noindex={issues.length === 0}>
+  <header class="projects-intro"><p class="eyebrow">Ideas in print</p><h1>Tech Grooves</h1><p>Explore the ATL publication archive. Each available issue includes a view and download option.</p></header>
+  <section class="projects-section" aria-labelledby="publication-list-heading">
+    <div class="projects-section__heading"><h2 id="publication-list-heading">Issues</h2><p>{issues.length} {issues.length === 1 ? 'issue' : 'issues'}</p></div>
+    {issues.length > 0 ? <div class="editorial-grid">{issues.map((entry) => <EditorialCard title={entry.data.title} summary={entry.data.description} href={`/publications/${entry.id}/`} eyebrow={entry.data.edition} meta={String(entry.data.year)} image={entry.data.cover} />)}</div> : <p class="projects-empty">Tech Grooves issues will appear here when the PDFs and issue details are ready.</p>}
+  </section>
+</BaseLayout>

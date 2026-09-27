@@ -1,0 +1,28 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { isPublished } from '../../lib/content';
+import { formatDate } from '../../lib/dates';
+
+interface Props { event: CollectionEntry<'events'> }
+
+export async function getStaticPaths() {
+  const entries = await getCollection('events', isPublished);
+  return entries.map((event) => ({ params: { slug: event.id }, props: { event } }));
+}
+
+const { event } = Astro.props;
+const { Content } = await render(event);
+const { title, date, year, location, summary, gallery, reportPdf, videoUrl, participants } = event.data;
+---
+
+<BaseLayout title={title} description={summary} noindex={false}>
+  <nav class="project-breadcrumbs" aria-label="Breadcrumb"><a href="/events/">Events</a><span aria-hidden="true">/</span><span aria-current="page">{title}</span></nav>
+  <article class="editorial-detail">
+    <header class="editorial-detail__header"><span class="badge badge--category">ATL event</span><h1>{title}</h1><p>{summary}</p><div class="editorial-detail__meta">{date ? <time datetime={date}>{formatDate(date)}</time> : year && <span>{year}</span>}{location && <span>{location}</span>}</div></header>
+    <div class="editorial-detail__prose"><Content /></div>
+    {participants.length > 0 && <section class="editorial-detail__section" aria-labelledby="event-participants"><h2 id="event-participants">Participants</h2><ul>{participants.map((person) => <li>{person}</li>)}</ul></section>}
+    {gallery.length > 0 && <section class="editorial-detail__section" id="event-photos" aria-labelledby="event-gallery-heading"><h2 id="event-gallery-heading">Photos</h2><p>Open an image in a new tab to view it full size.</p><div class="event-photo-grid">{gallery.map((photo) => <figure><a href={photo.src} target="_blank" rel="noopener noreferrer" aria-label={`Open full-size image: ${photo.alt}`}><img src={photo.src} alt={photo.alt} width={photo.width ?? 800} height={photo.height ?? 600} loading="lazy" decoding="async" /></a>{photo.caption && <figcaption>{photo.caption}</figcaption>}</figure>)}</div></section>}
+    {(reportPdf || videoUrl) && <section class="editorial-detail__resources" aria-labelledby="event-resources"><h2 id="event-resources">Event resources</h2>{reportPdf && <a href={reportPdf} type="application/pdf" download>Download event report (PDF)</a>}{videoUrl && <a href={videoUrl} target="_blank" rel="noopener noreferrer">Watch event video <span aria-hidden="true">↗</span></a>}</section>}
+  </article>
+</BaseLayout>

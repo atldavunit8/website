@@ -1,0 +1,60 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EditorialCard from '../components/EditorialCard.astro';
+import { isPublished } from '../lib/content';
+import { formatDate } from '../lib/dates';
+
+const categories = ['All', 'Achievement', 'Announcement', 'Scheme', 'Workshop', 'Result', 'External Link'];
+const articles = (await getCollection('news', isPublished)).sort((a, b) =>
+  (b.data.publishedAt ?? '').localeCompare(a.data.publishedAt ?? '') || a.data.title.localeCompare(b.data.title),
+);
+---
+
+<BaseLayout title="News and Schemes" description="ATL news, schemes and announcements from DAV Public School, Unit-VIII." noindex={articles.length === 0}>
+  <header class="projects-intro">
+    <p class="eyebrow">From the lab</p>
+    <h1>News & updates</h1>
+    <p>Read student achievements, announcements, workshops and schemes.</p>
+    <nav class="editorial-links" aria-label="Explore opportunities"><a href="/schemes/">Schemes</a><a href="/competitions/">Competitions</a></nav>
+  </header>
+  <section class="projects-section" aria-labelledby="news-list-heading">
+    <div class="projects-section__heading"><h2 id="news-list-heading">Latest stories</h2><p id="news-result-count" aria-live="polite">{articles.length} {articles.length === 1 ? 'story' : 'stories'} shown</p></div>
+    {articles.length > 0 ? (
+      <>
+        <div class="project-filters" role="group" aria-label="Filter news by category" data-news-filters hidden>
+          {categories.map((category) => <button class="project-filter" type="button" data-news-category-button={category} aria-pressed={category === 'All' ? 'true' : 'false'}>{category}</button>)}
+        </div>
+        <div class="editorial-grid">
+          {articles.map((article) => <div data-news-category={article.data.category}>
+            <EditorialCard title={article.data.title} summary={article.data.summary} href={`/news/${article.id}/`} eyebrow={article.data.category} meta={article.data.publishedAt ? formatDate(article.data.publishedAt) : undefined} image={article.data.image} />
+          </div>)}
+        </div>
+        <p class="projects-empty" data-news-empty hidden>No stories in this category yet.</p>
+      </>
+    ) : <p class="projects-empty">News and scheme articles will appear here when their content is ready.</p>}
+  </section>
+</BaseLayout>
+
+<script>
+  const filters = document.querySelector<HTMLElement>('[data-news-filters]');
+  const cards = [...document.querySelectorAll<HTMLElement>('[data-news-category]')];
+  const count = document.querySelector<HTMLElement>('#news-result-count');
+  const empty = document.querySelector<HTMLElement>('[data-news-empty]');
+  if (filters && cards.length && count && empty) {
+    filters.hidden = false;
+    filters.addEventListener('click', (event) => {
+      const button = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-news-category-button]');
+      if (!button || !filters.contains(button)) return;
+      const category = button.dataset.newsCategoryButton;
+      let visible = 0;
+      for (const card of cards) {
+        card.hidden = category !== 'All' && card.dataset.newsCategory !== category;
+        if (!card.hidden) visible++;
+      }
+      for (const option of filters.querySelectorAll<HTMLButtonElement>('[data-news-category-button]')) option.setAttribute('aria-pressed', String(option === button));
+      count.textContent = `${visible} ${visible === 1 ? 'story' : 'stories'} shown`;
+      empty.hidden = visible !== 0;
+    });
+  }
+</script>
