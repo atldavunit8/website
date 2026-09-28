@@ -793,3 +793,13 @@ a:hover { text-decoration: underline; text-underline-offset: 0.2em; }
 .ticker__group a:hover { text-decoration: underline; }
 @keyframes ticker-scroll { to { transform: translateX(-50%); } }
 @media (prefers-reduced-motion: reduce) { .ticker__track { animation: none; } .ticker__viewport { overflow-x: auto; } }
+
+.button--outline { border-color: var(--navy); color: var(--navy); background: transparent; }
+.button--outline:hover { background: rgb(38 60 73 / 8%); }
+.editorial-detail__resources a.button { font-weight: 500; }
+.file-card { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3) var(--space-4); width: 100%; border: 2px solid var(--navy); border-radius: var(--radius-md); background: var(--paper); padding: var(--space-4); box-shadow: var(--shadow-card); }
+.file-card__type { flex: none; display: grid; place-items: center; width: 3.5rem; height: 4rem; border-radius: var(--radius-sm); background: #B24F2C; color: var(--paper); font-family: var(--font-mono); font-size: 0.8rem; font-weight: 500; letter-spacing: 0.06em; }
+.file-card__info { flex: 1 1 14rem; min-width: 0; }
+.file-card__info strong { display: block; color: var(--navy); font-size: 1.05rem; overflow-wrap: anywhere; }
+.file-card__info span { color: #4A453C; font-size: 0.88rem; }
+.file-card__actions { display: flex; flex-wrap: wrap; gap: var(--space-2); }

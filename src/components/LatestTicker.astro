@@ -19,7 +19,7 @@ const duration = `${sequence.length * 6}s`;
         {[0, 1].map((copy) => (
           <div class="ticker__group" aria-hidden={copy === 1 ? 'true' : undefined}>
             {sequence.map(({ item, hidden }) => (
-              <a href={`/news/${item.id}/`} tabindex={copy === 1 || hidden ? -1 : undefined} aria-hidden={hidden && copy === 0 ? 'true' : undefined}>{item.data.title}</a>
+              <a href={item.data.attachment ?? `/news/${item.id}/`} target={item.data.attachment ? '_blank' : undefined} rel={item.data.attachment ? 'noopener noreferrer' : undefined} tabindex={copy === 1 || hidden ? -1 : undefined} aria-hidden={hidden && copy === 0 ? 'true' : undefined}>{item.data.title}</a>
             ))}
           </div>
         ))}

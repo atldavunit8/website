@@ -14,6 +14,8 @@ export async function getStaticPaths() {
 const { article } = Astro.props;
 const { Content } = await render(article);
 const { title, category, summary, publishedAt, image, officialUrl, attachment } = article.data;
+const fileName = attachment?.split('/').pop() ?? '';
+const fileType = (fileName.split('.').pop() ?? 'file').toUpperCase();
 ---
 
 <BaseLayout title={title} description={summary} noindex={false}>
@@ -22,6 +24,20 @@ const { title, category, summary, publishedAt, image, officialUrl, attachment } 
     <header class="editorial-detail__header"><span class="badge badge--category">{category}</span><h1>{title}</h1><p>{summary}</p>{publishedAt && <time datetime={publishedAt}>{formatDate(publishedAt)}</time>}</header>
     {image && <figure class="editorial-detail__hero"><img src={image.src} alt={image.alt} width={image.width ?? 1200} height={image.height ?? 675} decoding="async" />{image.caption && <figcaption>{image.caption}</figcaption>}</figure>}
     <div class="editorial-detail__prose"><Content /></div>
-    {(officialUrl || attachment) && <div class="editorial-detail__resources"><h2>Sources & resources</h2>{officialUrl && <a href={officialUrl} target="_blank" rel="noopener noreferrer">Official source <span aria-hidden="true">↗</span></a>}{attachment && <a href={attachment} download>Download attachment</a>}</div>}
-  </article>
+    {(officialUrl || attachment) && (
+      <div class="editorial-detail__resources">
+        <h2>Sources & resources</h2>
+        {attachment && (
+          <div class="file-card">
+            <span class="file-card__type" aria-hidden="true">{fileType}</span>
+            <div class="file-card__info"><strong>{fileName}</strong><span>Official document · {fileType} file</span></div>
+            <div class="file-card__actions">
+              <a class="button button--saffron" href={attachment} target="_blank" rel="noopener noreferrer">Open <span aria-hidden="true">↗</span></a>
+              <a class="button button--outline" href={attachment} download>Download</a>
+            </div>
+          </div>
+        )}
+        {officialUrl && <a class="button button--outline" href={officialUrl} target="_blank" rel="noopener noreferrer">Official source <span aria-hidden="true">↗</span></a>}
+      </div>
+    )}
 </BaseLayout>
