@@ -15,6 +15,11 @@ teamPhoto:
   height: 413
 reportPdf: "/reports/mushroom-straw-processing-machine-report.pdf"
 publishStatus: published
+cover:
+  src: "/images/projects/oyster.png"
+  caption: "Prototype from the submitted project archive."
+  width: 586
+  height: 532
 ---
 
 The machine is designed to cut, sterilize, dehydrate, inoculate and package paddy straw into ready-to-grow oyster mushroom bags.
