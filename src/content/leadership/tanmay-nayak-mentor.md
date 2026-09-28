@@ -3,7 +3,7 @@ title: "Mentor's Message"
 name: "Tanmay Kumar Nayak"
 designation: "Mentor"
 portrait:
-     src: "/images/leadership/tanmay-sir.jpg"
+     src: "/images/leadership/tanmay-sir.png"
      alt: "Tanmay Kumar Nayak, Mentor, Atal Tinkering Lab"
 shortMessage: "The Atal Tinkering Lab at DAV Public School, Unit-VIII, Bhubaneswar is a space where students are encouraged to explore, experiment and transform their ideas into practical solutions."
 fullMessage: |

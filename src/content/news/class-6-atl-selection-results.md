@@ -4,9 +4,8 @@ category: Result
 summary: "The results of the Class 6 ATL selection exam are now available."
 publishedAt: "2026-09-28"
 publishStatus: published
+attachment: "/reports/class-6-atl-results.pdf"
 ---
-
-The results of the Class 6 ATL selection exam are now available.
 
 <!--
 ADD THE RESULT HERE (edit this file, then commit):
