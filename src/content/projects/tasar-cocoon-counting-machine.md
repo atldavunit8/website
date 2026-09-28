@@ -1,7 +1,7 @@
 ---
 title: "Tasar Cocoon Counting and Quality Checking Machine with Segregation"
 category: "Social Innovation"
-status: "Prototype"
+status: "Completed"
 year: 2025
 summary: "A low-cost, Arduino-based machine that counts tasar cocoons, checks their quality with light and sorts them, without pressing or damaging them."
 problem: "Tasar cocoons are sold one by one, so farmers need an accurate count and a fair quality check. Counting by hand is slow, tiring and error-prone, and judging quality by pressing a cocoon is subjective and can damage it."
