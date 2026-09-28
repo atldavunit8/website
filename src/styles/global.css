@@ -773,7 +773,11 @@ a:hover { text-decoration: underline; text-underline-offset: 0.2em; }
   .site-footer__inner > :first-child { grid-column: auto; }
 }
 
-.about-page { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-5); margin-top: var(--space-5); }
+.about-intro { padding-bottom: var(--space-2); }
+.about-page { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-5); margin-top: 0; padding-bottom: var(--space-6); }
 .about-page__text p { max-width: 46rem; margin: 0 0 var(--space-3); color: #3A352D; font-size: 1.05rem; line-height: 1.8; }
+.about-section__copy .section-heading { margin-bottom: var(--space-3); }
+.about-section__copy > p { margin: 0 0 var(--space-3); }
+.about-section__copy > .text-link { display: inline-block; margin-top: var(--space-2); }
 .about-page__image { width: 100%; height: auto; border-radius: var(--radius-lg); }
 @media (min-width: 900px) { .about-page:has(.about-page__image) { grid-template-columns: 1.1fr 0.9fr; align-items: start; } }

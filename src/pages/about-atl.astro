@@ -13,7 +13,7 @@ const paragraphs = [
 const showImage = false;
 ---
 <BaseLayout title="About ATL" description="About the Atal Tinkering Lab at DAV Public School, Unit-VIII, Bhubaneswar.">
-  <header class="projects-intro"><p class="eyebrow">About our ATL</p><h1>About the Atal Tinkering Lab</h1><p>{intro}</p></header>
+  <header class="projects-intro about-intro"><p class="eyebrow">About our ATL</p><h1>About the Atal Tinkering Lab</h1><p>{intro}</p></header>
   <section class="about-page">
     <div class="about-page__text">{paragraphs.map((text) => <p set:html={text} />)}</div>
     {showImage && <img class="about-page__image" src="/images/about/atl-lab.jpg" alt="Students working in the Atal Tinkering Lab" width="900" height="600" loading="lazy" />}
