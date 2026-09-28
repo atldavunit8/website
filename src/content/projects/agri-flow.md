@@ -19,7 +19,7 @@ cover:
   alt: "HydroSense water-reuse prototype with tubing, pumps and collection container on a display board"
   caption: "Agri-Flow diagram from the submitted project archive."
   width: 707
-  height: 477
+  height: 323
 ---
 
 The design moves crops through a vertical drying process and uses moisture control to guide the drying stage. Agri-Flow earned first rank in the BIRAC Design for BioE3 Challenge.
