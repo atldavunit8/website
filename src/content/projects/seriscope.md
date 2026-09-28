@@ -33,7 +33,7 @@ teamPhoto:
   - src: "/images/projects/surya.jpeg"
     alt: "Portrait of Suryakanta Lenka"
     caption: "Suryakanta Lenka"
-reportPdf: "/reports/seriscope-project-report.pdf"
+reportPdf: "/reports/IRIS.pdf"
 featured: true
 publishStatus: published
 ---
