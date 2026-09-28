@@ -3,18 +3,24 @@ import { getCollection } from 'astro:content';
 import { isPublished } from '../lib/content';
 
 const items = (await getCollection('news', isPublished))
-  .filter((entry) => entry.data.category === 'Result')
   .sort((a, b) => (b.data.publishedAt ?? '').localeCompare(a.data.publishedAt ?? ''))
   .slice(0, 5);
+
+// Repeat the items so one group is always wider than the screen (works even with a single update).
+const repeats = items.length > 0 ? Math.ceil(8 / items.length) : 0;
+const sequence = Array.from({ length: repeats }, (_, round) => items.map((item) => ({ item, hidden: round > 0 }))).flat();
+const duration = `${sequence.length * 6}s`;
 ---
 {items.length > 0 && (
-  <div class="ticker" role="region" aria-label="Latest results">
-    <span class="ticker__label">Latest results</span>
+  <div class="ticker" role="region" aria-label="Latest updates">
+    <span class="ticker__label">Latest updates</span>
     <div class="ticker__viewport">
-      <div class="ticker__track">
+      <div class="ticker__track" style={`--ticker-duration: ${duration}`}>
         {[0, 1].map((copy) => (
           <div class="ticker__group" aria-hidden={copy === 1 ? 'true' : undefined}>
-            {items.map((item) => <a href={`/news/${item.id}/`} tabindex={copy === 1 ? -1 : undefined}>{item.data.title}</a>)}
+            {sequence.map(({ item, hidden }) => (
+              <a href={`/news/${item.id}/`} tabindex={copy === 1 || hidden ? -1 : undefined} aria-hidden={hidden && copy === 0 ? 'true' : undefined}>{item.data.title}</a>
+            ))}
           </div>
         ))}
       </div>
