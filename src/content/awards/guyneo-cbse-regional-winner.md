@@ -5,7 +5,7 @@ competition: "CBSE Regional Science Fair"
 programme: CBSE Science Exhibition
 result: "Regional winner"
 achievementType: Award
-level: Regional
+level: State
 projectId: guyneo-eye-blink-wheelchair
 year: 2018
 students:
