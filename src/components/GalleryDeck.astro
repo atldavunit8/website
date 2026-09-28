@@ -19,7 +19,7 @@ function collect(dir: string, urlBase: string): { src: string; alt: string }[] {
 }
 
 // The deck shows the first 10 photos; the full set lives on /gallery/
-const photos = (fs.existsSync(root) ? collect(root, '/gallery') : []).slice(0, 10);
+const photos = (fs.existsSync(root) ? collect(root, '/gallery') : []).slice(0, 20);
 ---
 
 {photos.length > 0 && (
