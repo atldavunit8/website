@@ -5,7 +5,6 @@ competition: "30th National Children’s Science Congress (2022–23)"
 result: "Selected among 31 child scientists representing Odisha to participate in the National Congress in Ahmedabad, 27–31 January 2023"
 achievementType: Selection
 level: National
-academicYear: "2022-23"
 projectId: iot-fertilizer-system
 year: 2023
 students:

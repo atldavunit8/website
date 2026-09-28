@@ -7,7 +7,6 @@ achievementType: Award
 projectId: seriscope
 level: National
 year: 2026
-academicYear: "2025-26"
 students:
   - "Tripathy Divyajyoti Senapati"
   - "Suryakanta Lenka"
