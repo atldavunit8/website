@@ -1,0 +1,23 @@
+---
+import { getCollection } from 'astro:content';
+import { isPublished } from '../lib/content';
+
+const items = (await getCollection('news', isPublished))
+  .filter((entry) => entry.data.category === 'Result')
+  .sort((a, b) => (b.data.publishedAt ?? '').localeCompare(a.data.publishedAt ?? ''))
+  .slice(0, 5);
+---
+{items.length > 0 && (
+  <div class="ticker" role="region" aria-label="Latest results">
+    <span class="ticker__label">Latest results</span>
+    <div class="ticker__viewport">
+      <div class="ticker__track">
+        {[0, 1].map((copy) => (
+          <div class="ticker__group" aria-hidden={copy === 1 ? 'true' : undefined}>
+            {items.map((item) => <a href={`/news/${item.id}/`} tabindex={copy === 1 ? -1 : undefined}>{item.data.title}</a>)}
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+)}

@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
+import LatestTicker from '../components/LatestTicker.astro';
 
 interface Props {
   title: string;
@@ -38,6 +39,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
   <body>
     <a class="skip-link" href="#main-content">Skip to content</a>
     <SiteHeader />
+    <LatestTicker />
     <main id="main-content" tabindex="-1" class="site-main">
       <slot />
     </main>
