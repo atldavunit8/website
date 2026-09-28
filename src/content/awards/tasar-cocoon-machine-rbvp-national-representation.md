@@ -3,7 +3,7 @@ title: "Tasar Cocoon Counting Machine represents at Rashtriya Bal Vaigyanik Prad
 organiser: "Rashtriya Bal Vaigyanik Pradarshni"
 competition: "Rashtriya Bal Vaigyanik Pradarshni (National Children's Science Exhibition)"
 result: "Represented at the national level"
-achievementType: Selection
+achievementType: Award
 projectId: tasar-cocoon-counting-machine
 level: National
 year: 2025
