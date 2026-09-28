@@ -6,6 +6,7 @@ result: "Third prize"
 achievementType: Award
 level: School
 projectId: iot-fertilizer-system
+year: 2023
 students:
   - "Soumya Ranjan Sahoo"
   - "Abhinav Panda"

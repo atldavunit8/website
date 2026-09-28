@@ -5,6 +5,8 @@ competition: "Anjali Children’s Day Fair"
 result: "Runner-up"
 achievementType: Award
 projectId: guyneo-eye-blink-wheelchair
+year: 2018
+level: State
 students:
   - "Aurvind Mohanty"
   - "Bivraj Sahu"

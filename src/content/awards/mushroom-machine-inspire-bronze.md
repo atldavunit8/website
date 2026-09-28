@@ -6,6 +6,7 @@ result: "Bronze medal"
 achievementType: Award
 level: National
 projectId: oyster-mushroom-straw-machine
+year: 2023
 students:
   - "Shreyansh Nayak"
 featured: true

@@ -4,7 +4,8 @@ organiser: "Bhubaneswar Municipal Corporation (BMC)"
 competition: "Science, Mathematics and Environment Exhibition, Block Level (BMC Level)"
 result: "Second position"
 achievementType: Award
-academicYear: "2019-20"
+year: 2021
+level: Regional
 projectId: charged-pole-safety-device
 students:
   - "Rajdeep Dey"

@@ -40,7 +40,8 @@ export async function getStaticPaths() {
 
 const { project, relatedProjects, projectAwards } = Astro.props;
 const { Content } = await render(project);
-const { title, summary, category, status, year, cover, gallery, problem, objective, workingMechanism, team, mentor, technologies, materials, reportPdf, videoUrl } = project.data;
+const { title, summary, category, status, year, cover, gallery, problem, objective, workingMechanism, team, mentor, technologies, materials, reportPdf, videoUrl, teamPhoto } = project.data;
+const teamPhotos = teamPhoto ? (Array.isArray(teamPhoto) ? teamPhoto : [teamPhoto]) : [];
 ---
 
 <BaseLayout title={title} description={summary} noindex={false}>
@@ -91,6 +92,20 @@ const { title, summary, category, status, year, cover, gallery, problem, objecti
           <section class="project-detail__section" aria-labelledby="project-mechanism">
             <h2 id="project-mechanism">How it works</h2>
             <p>{workingMechanism}</p>
+          </section>
+        )}
+
+        {teamPhotos.length > 0 && (
+          <section class="project-detail__section" aria-labelledby="project-team">
+            <h2 id="project-team">Meet the team</h2>
+            <div class="project-detail__gallery">
+              {teamPhotos.map((image) => (
+                <figure>
+                  <img src={image.src} alt={image.alt} width={image.width ?? 800} height={image.height ?? 600} loading="lazy" decoding="async" />
+                  {image.caption && <figcaption>{image.caption}</figcaption>}
+                </figure>
+              ))}
+            </div>
           </section>
         )}
 

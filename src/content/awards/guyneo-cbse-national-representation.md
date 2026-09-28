@@ -6,6 +6,7 @@ result: "State representation at the national level"
 achievementType: Selection
 level: National
 projectId: guyneo-eye-blink-wheelchair
+year: 2018
 students:
   - "Aurvind Mohanty"
   - "Bivraj Sahu"

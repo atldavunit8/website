@@ -14,12 +14,21 @@ materials:
   - "Auger, hot-air system and separator"
 reportPdf: "/reports/agri-flow-compact-crop-dryer-report.pdf"
 publishStatus: published
+status: "Completed"
+
 cover:
   src: "/images/projects/agri-flow.png"
-  alt: "HydroSense water-reuse prototype with tubing, pumps and collection container on a display board"
+  alt: "Agri-Flow diagram from the submitted project archive."
   caption: "Agri-Flow diagram from the submitted project archive."
   width: 707
   height: 323
+
+teamPhoto:
+  src: "/images/projects/Debabrata.png"
+  alt: "Portrait of Team"
+  caption: "Debabrata & Shreyan"
+  width: 1056
+  height: 593
 ---
 
 The design moves crops through a vertical drying process and uses moisture control to guide the drying stage. Agri-Flow earned first rank in the BIRAC Design for BioE3 Challenge.

@@ -5,6 +5,8 @@ competition: "OUAT Science Fair"
 result: "Honorary awardee"
 achievementType: Recognition
 projectId: guyneo-eye-blink-wheelchair
+year: 2018
+level: Regional
 students:
   - "Aurvind Mohanty"
   - "Bivraj Sahu"

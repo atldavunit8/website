@@ -5,6 +5,8 @@ competition: "Design for BioE-3 Challenge"
 result: "Rank 1 (Winner)"
 achievementType: Award
 projectId: agri-flow
+level: National
+year: 2025
 students:
   - "Debabrata Das"
   - "Shreyan Mohanty"

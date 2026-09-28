@@ -6,6 +6,7 @@ result: "Cash award of ₹10,000 (1 of 2 district-level awards)"
 achievementType: Award
 level: District
 projectId: guyneo-eye-blink-wheelchair
+year: 2018
 students:
   - "Aurvind Mohanty"
   - "Bivraj Sahu"

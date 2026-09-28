@@ -48,7 +48,7 @@ const projects = defineCollection({
     teamIntention: requiredText.optional(),
     testimonial: z.object({ quote: requiredText, attribution: requiredText, approved: z.literal(true) }).optional(),
     team: z.array(requiredText).default([]),
-    teamPhoto: media.optional(),
+    teamPhoto: z.union([media, z.array(media)]).optional(),
     mentor: requiredText.optional(),
     mentorContribution: requiredText.optional(),
     technologies: z.array(requiredText).default([]),

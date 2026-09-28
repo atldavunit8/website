@@ -6,6 +6,7 @@ result: "State representation"
 achievementType: Selection
 level: State
 projectId: guyneo-eye-blink-wheelchair
+year: 2018
 students:
   - "Aurvind Mohanty"
   - "Bivraj Sahu"

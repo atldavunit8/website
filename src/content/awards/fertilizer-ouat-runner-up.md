@@ -5,6 +5,8 @@ competition: "OUAT Science Exhibition, Bhubaneswar"
 result: "First runner-up; cash prize of ₹1,500"
 achievementType: Award
 projectId: iot-fertilizer-system
+level: Regional
+year: 2023
 students:
   - "Soumya Ranjan Sahoo"
   - "Abhinav Panda"

@@ -6,6 +6,7 @@ result: "Selected through the BMC-level Science Exhibition"
 achievementType: Selection
 level: District
 projectId: iot-fertilizer-system
+year: 2023
 students:
   - "Soumya Ranjan Sahoo"
   - "Abhinav Panda"

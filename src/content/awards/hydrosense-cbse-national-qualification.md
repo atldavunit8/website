@@ -5,7 +5,7 @@ competition: "CBSE National Science Fair"
 result: "Qualified for the national fair in New Delhi"
 achievementType: Selection
 level: National
-academicYear: "2025-26"
+year: 2025
 projectId: hydrosense
 students:
   - "Anshul Ishan"

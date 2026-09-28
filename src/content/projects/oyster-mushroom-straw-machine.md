@@ -5,6 +5,7 @@ year: 2023
 summary: "A machine prototype that prepares paddy straw and packs ready-to-grow bags for oyster mushroom cultivation."
 problem: "Preparing straw for oyster mushroom cultivation involves several time-consuming manual steps."
 teamIntention: "The machine is intended to make ready-to-grow oyster mushroom bags more accessible to rural farmers. A community entrepreneur could run it as a service, allowing farmers to bring paddy straw and receive prepared bags without buying a machine themselves."
+status: "Completed"
 team:
   - "Shreyansh Nayak"
 teamPhoto:

@@ -5,6 +5,8 @@ competition: "Vivo Ignite Innovation Awards"
 result: "Overall third place"
 achievementType: Award
 projectId: oyster-mushroom-straw-machine
+year: 2023
+level: National
 students:
   - "Shreyansh Nayak"
 photos:

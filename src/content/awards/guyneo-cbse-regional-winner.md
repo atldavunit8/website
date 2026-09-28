@@ -6,6 +6,7 @@ result: "Regional winner"
 achievementType: Award
 level: Regional
 projectId: guyneo-eye-blink-wheelchair
+year: 2018
 students:
   - "Aurvind Mohanty"
   - "Bivraj Sahu"

@@ -6,6 +6,7 @@ result: "Winner"
 achievementType: Award
 level: School
 projectId: guyneo-eye-blink-wheelchair
+year: 2018
 students:
   - "Aurvind Mohanty"
   - "Bivraj Sahu"

@@ -7,6 +7,7 @@ achievementType: Selection
 level: National
 academicYear: "2022-23"
 projectId: iot-fertilizer-system
+year: 2023
 students:
   - "Soumya Ranjan Sahoo"
   - "Abhinav Panda"

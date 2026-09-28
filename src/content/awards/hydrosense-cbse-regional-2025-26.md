@@ -5,7 +5,7 @@ competition: "CBSE Regional Science Fair"
 result: "Winner, Water Conservation and Management"
 achievementType: Award
 level: Regional
-academicYear: "2025-26"
+year: 2025
 projectId: hydrosense
 students:
   - "Anshul Ishan"

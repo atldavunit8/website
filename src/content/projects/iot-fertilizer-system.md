@@ -2,6 +2,12 @@
 title: "IoT Based Fertilizer System"
 category: "AI & IoT"
 year: 2022
+cover:
+  src: "/images/projects/io.jpeg"
+  alt: "IoT Based Fertilizer System"
+  caption: "IoT Based Fertilizer System"
+  width: 984
+  height: 1280
 summary: "An IoT fertigation prototype that monitors conditions and lets growers schedule irrigation and fertilizer delivery through a mobile app."
 problem: "Small farms and distant plots can require repeated manual irrigation and fertilizer application."
 team:
@@ -13,6 +19,14 @@ technologies:
   - "Mobile app"
 materials:
   - "Motors, relays, containers and pipes"
+status: "Completed"
+teamPhoto:
+  src: "/images/projects/soumya.jpg"
+  alt: "Portrait of Soumyaranjan"
+  caption: "Soumyaranjan"
+  width: 648
+  height: 833
+
 reportPdf: "/reports/iot-fertilizer-system-report.pdf"
 publishStatus: published
 ---

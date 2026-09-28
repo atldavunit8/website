@@ -5,6 +5,7 @@ competition: "School Innovation Council recognition"
 result: "Among the top 27 in the country"
 achievementType: Selection
 level: National
+year: 2025
 projectId: multi-purpose-cleaning-tool
 publishStatus: published
 ---

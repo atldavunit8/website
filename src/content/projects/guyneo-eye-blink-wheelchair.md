@@ -15,6 +15,25 @@ technologies:
   - "Infrared reflectance sensors"
   - "Arduino"
 publishStatus: published
+status: "Completed"
+teamPhoto:
+  - src: "/images/projects/bivraj.png"
+    alt: "Portrait of Bivraj"
+    caption: "Bivraj"
+    width: 1150
+    height: 1536
+
+  - src: "/images/projects/aurvind.jpg"
+    alt: "Portrait of Aurvind"
+    caption: "Aurvind"
+    width: 1254
+    height: 1254
+cover:
+  src: "/images/projects/prototype - Aurvind Mohanty.png"
+  alt: "GuyNeo Eye-Blink Wheelchair"
+  caption: "GuyNeo Eye-Blink Wheelchair"
+  width: 1122
+  height: 1402
 ---
 
 Infrared reflectance modules mounted on glasses detect intentional blinks, which an Arduino interprets as wheelchair movement commands. The project was previously called Eye Blink Controlled Wheelchair. The team's later plans include vital-sign monitoring, alerts and IoT control.

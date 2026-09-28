@@ -10,12 +10,28 @@ teamIntention: "We want to turn water that is usually discarded into a resource 
 team:
   - "Anshul Ishan"
   - "Subham Soren"
+
+status: "Completed"
 cover:
   src: "/images/projects/hydrosense-prototype.webp"
   alt: "HydroSense water-reuse prototype with tubing, pumps and collection container on a display board"
   caption: "HydroSense prototype from the submitted project archive."
   width: 624
   height: 323
+  
+teamPhoto:
+  - src: "/images/projects/anshul.png"
+    alt: "Portrait of anshul"
+    caption: "Anshul Ishan"
+    width: 424
+    height: 474
+
+  - src: "/images/projects/subham.png"
+    alt: "Portrait of subham"
+    caption: "Subham Soren"
+    width: 454
+    height: 477
+
 reportPdf: "/reports/hydrosense-project-report.pdf"
 publishStatus: published
 ---

@@ -5,7 +5,7 @@ competition: "ATL Marathon"
 result: "Among the top 10 teams from Odisha"
 achievementType: Recognition
 level: State
-academicYear: "2021-22"
+year: 2021
 projectId: charged-pole-safety-device
 students:
   - "Rajdeep Dey"
