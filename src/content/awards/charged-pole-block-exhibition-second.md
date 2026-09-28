@@ -5,7 +5,7 @@ competition: "Science, Mathematics and Environment Exhibition, Block Level (BMC 
 result: "Second position"
 achievementType: Award
 year: 2021
-level: Regional
+level: District
 projectId: charged-pole-safety-device
 students:
   - "Rajdeep Dey"

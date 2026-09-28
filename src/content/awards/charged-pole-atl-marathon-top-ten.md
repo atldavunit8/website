@@ -3,7 +3,7 @@ title: "Charged-pole safety device among Odisha’s top ten ATL Marathon teams"
 organiser: "NITI Aayog and Atal Innovation Mission (AIM)"
 competition: "ATL Marathon"
 result: "Among the top 10 teams from Odisha"
-achievementType: Recognition
+achievementType: Award
 level: State
 year: 2021
 projectId: charged-pole-safety-device

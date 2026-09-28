@@ -4,7 +4,7 @@ organiser: "CBSE"
 competition: "CBSE Regional Science Fair"
 result: "Winner, Water Conservation and Management"
 achievementType: Award
-level: Regional
+level: State
 year: 2025
 projectId: hydrosense
 students:

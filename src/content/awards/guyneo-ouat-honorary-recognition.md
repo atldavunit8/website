@@ -6,7 +6,7 @@ result: "Honorary awardee"
 achievementType: Recognition
 projectId: guyneo-eye-blink-wheelchair
 year: 2018
-level: Regional
+level: District
 students:
   - "Aurvind Mohanty"
   - "Bivraj Sahu"

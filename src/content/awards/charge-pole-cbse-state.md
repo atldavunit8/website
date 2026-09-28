@@ -1,10 +1,10 @@
 ---
-title: "Charged-pole safety device participates in CBSE National Science Exhibition"
+title: "Charged-pole safety device qualifies for CBSE National Science Exhibition"
 organiser: "CBSE"
 competition: "CBSE Science Exhibition"
-result: "Qualified for the national level"
-achievementType: Selection
-level: National
+result: "Won state level"
+achievementType: Award
+level: State
 year: 2023
 projectId: charged-pole-safety-device
 students:

@@ -4,7 +4,7 @@ organiser: "DAV"
 competition: "Inter-DAV Expo"
 result: "Winner"
 achievementType: Award
-level: Regional
+level: School
 year: 2021
 projectId: charged-pole-safety-device
 students:
