@@ -4,6 +4,7 @@ organiser: "Anjali Foundation"
 competition: "Anjali Children’s Day Fair"
 result: "Runner-up"
 achievementType: Award
+programme: Anjali Children’s Day Fair
 projectId: guyneo-eye-blink-wheelchair
 year: 2018
 level: State

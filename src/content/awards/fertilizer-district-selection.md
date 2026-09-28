@@ -3,6 +3,7 @@ title: "IoT fertilizer system selected for District-Level Science Exhibition"
 organiser: "National Children’s Science Congress (NCSC)"
 competition: "District-Level Science Exhibition"
 result: "Selected through the BMC-level Science Exhibition"
+programme: Block Level (BMC Level)
 achievementType: Selection
 level: District
 projectId: iot-fertilizer-system

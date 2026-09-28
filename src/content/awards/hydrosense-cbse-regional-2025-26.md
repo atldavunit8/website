@@ -2,6 +2,7 @@
 title: "HydroSense wins CBSE Regional Science Fair category"
 organiser: "CBSE"
 competition: "CBSE Regional Science Fair"
+programme: CBSE Science Exhibition
 result: "Winner, Water Conservation and Management"
 achievementType: Award
 level: State

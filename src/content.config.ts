@@ -67,6 +67,7 @@ const awards = defineCollection({
     ...common,
     organiser: requiredText,
     competition: requiredText.optional(),
+    programme: requiredText.optional(),
     result: requiredText,
     achievementType: z.enum(['Award', 'Selection', 'Participation', 'Grant', 'Recognition']),
     level: z.enum(['School', 'District', 'Regional', 'State', 'National', 'International']).optional(),

@@ -4,6 +4,7 @@ organiser: "Odisha University of Agriculture & Technology (OUAT)"
 competition: "OUAT Science Fair"
 result: "Honorary awardee"
 achievementType: Recognition
+programme: OUAT Science Exhibition
 projectId: guyneo-eye-blink-wheelchair
 year: 2018
 level: District

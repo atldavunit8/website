@@ -5,6 +5,7 @@ competition: "Make Tomorrow for Innovation Generation"
 result: "State representation"
 achievementType: Selection
 level: National
+programme: Make Tomorrow for Innovation Generation
 projectId: guyneo-eye-blink-wheelchair
 year: 2018
 students:

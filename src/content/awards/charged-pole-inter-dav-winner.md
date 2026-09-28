@@ -2,6 +2,7 @@
 title: "Charged-pole safety device wins Inter-DAV Expo"
 organiser: "DAV"
 competition: "Inter-DAV Expo"
+programme: Inter-DAV Expo
 result: "Winner"
 achievementType: Award
 level: School

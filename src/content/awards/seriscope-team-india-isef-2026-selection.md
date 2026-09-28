@@ -2,6 +2,7 @@
 title: "SeriScope selected for Team India at ISEF 2026"
 organiser: "Regeneron International Science and Engineering Fair (ISEF) 2026"
 competition: "Regeneron ISEF 2026, Phoenix, USA"
+programme: International Science and Engineering Fair (ISEF)
 result: "Selected for Team India"
 achievementType: Selection
 projectId: seriscope

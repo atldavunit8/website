@@ -2,6 +2,7 @@
 title: "Charged-pole safety device wins CSIR-IMMT JIGYASA first prize"
 organiser: "CSIR-Institute of Minerals and Materials Technology (CSIR-IMMT)"
 competition: "JIGYASA Science and Technology"
+programme: JIGYASA Science and Technology
 result: "First prize"
 achievementType: Award
 level: Regional

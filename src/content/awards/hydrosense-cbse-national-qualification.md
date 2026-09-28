@@ -2,6 +2,7 @@
 title: "HydroSense qualifies for CBSE National Science Fair"
 organiser: "CBSE"
 competition: "CBSE National Science Fair"
+programme: CBSE Science Exhibition
 result: "Qualified for the national fair in New Delhi"
 achievementType: Selection
 level: National

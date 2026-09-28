@@ -2,6 +2,7 @@
 title: "GuyNeo wins CBSE Regional Science Fair"
 organiser: "CBSE"
 competition: "CBSE Regional Science Fair"
+programme: CBSE Science Exhibition
 result: "Regional winner"
 achievementType: Award
 level: Regional

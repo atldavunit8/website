@@ -2,6 +2,7 @@
 title: "Charged-pole safety device wins national PIET Ideathon first prize"
 organiser: "Panipat Institute of Engineering and Technology (PIET)"
 competition: "National Level Ideathon"
+programme: National Level Ideathon
 result: "First prize"
 achievementType: Award
 level: National

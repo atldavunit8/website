@@ -2,6 +2,7 @@
 title: "GuyNeo receives INSPIRE MANAK district cash award — 1 of 2"
 organiser: "INSPIRE MANAK"
 competition: "INSPIRE MANAK"
+programme: INSPIRE Awards MANAK
 result: "Cash award of ₹10,000 (1 of 2 district-level awards)"
 achievementType: Award
 level: District

@@ -2,6 +2,7 @@
 title: "Mushroom machine receives INSPIRE MANAK bronze medal"
 organiser: "INSPIRE MANAK"
 competition: "10th National Level Exhibition and Project Competition"
+programme: INSPIRE Awards MANAK
 result: "Bronze medal"
 achievementType: Award
 level: National

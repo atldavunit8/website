@@ -2,6 +2,7 @@
 title: "Agri-Flow ranks first in BIRAC Design for BioE-3 Challenge"
 organiser: "Biotechnology Industry Research Assistance Council (BIRAC), Government of India"
 competition: "Design for BioE-3 Challenge"
+programme: Biotechnology Industry Research Assistance Council (BIRAC) 
 result: "Rank 1 (Winner)"
 achievementType: Award
 projectId: agri-flow

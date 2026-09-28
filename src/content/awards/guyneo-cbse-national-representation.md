@@ -4,6 +4,7 @@ organiser: "CBSE"
 competition: "CBSE National Science Fair"
 result: "State representation at the national level"
 achievementType: Selection
+programme: CBSE Science Exhibition
 level: National
 projectId: guyneo-eye-blink-wheelchair
 year: 2018

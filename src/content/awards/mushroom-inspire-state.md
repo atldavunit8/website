@@ -2,6 +2,7 @@
 title: "Mushroom machine among the Top 25"
 organiser: "INSPIRE MANAK"
 competition: "10th National Level Exhibition and Project Competition"
+programme: INSPIRE Awards MANAK
 result: "Top 25 "
 achievementType: Award
 level: State

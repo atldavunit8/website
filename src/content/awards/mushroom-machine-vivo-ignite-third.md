@@ -7,6 +7,7 @@ achievementType: Award
 projectId: oyster-mushroom-straw-machine
 year: 2023
 level: National
+programme: Vivo Ignite Innovation Awards
 students:
   - "Shreyansh Nayak"
 photos:

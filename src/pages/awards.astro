@@ -21,6 +21,28 @@ const yearKeys = [...new Set(awards.map(awardYearKey))].sort((a, b) =>
 const levels = ['School', 'District', 'Regional', 'State', 'National', 'International', 'Level not specified'];
 const types = ['Award', 'Selection', 'Participation', 'Grant', 'Recognition'];
 const projectById = new Map(projects.map((project) => [project.id, project]));
+const OTHER = 'Other competitions';
+const levelDisplay = ['International', 'National', 'State', 'Regional', 'District', 'School', 'Level not specified'];
+const levelRank = (level?: string) => (level ? levels.indexOf(level) : -1);
+const programmeName = (award: Award) => award.data.programme ?? OTHER;
+const slugify = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const programmes = [...new Set(awards.map(programmeName))]
+  .map((name) => {
+    const items = awards.filter((award) => programmeName(award) === name);
+    const years = items.map((award) => yearRank(awardYearKey(award))).filter(Boolean);
+    return {
+      name,
+      items,
+      topLevel: levelDisplay.find((level) => items.some((award) => (award.data.level ?? 'Level not specified') === level)) ?? 'Level not specified',
+      rank: Math.max(...items.map((award) => levelRank(award.data.level))),
+      projectCount: new Set(items.map((award) => award.data.projectId).filter(Boolean)).size,
+      yearText: years.length ? (Math.min(...years) === Math.max(...years) ? String(years[0]) : `${Math.min(...years)}–${Math.max(...years)}`) : '',
+      levelGroups: levelDisplay
+        .map((level) => ({ level, items: items.filter((award) => (award.data.level ?? 'Level not specified') === level) }))
+        .filter((group) => group.items.length > 0),
+    };
+  })
+  .sort((a, b) => Number(a.name === OTHER) - Number(b.name === OTHER) || b.rank - a.rank || b.items.length - a.items.length || a.name.localeCompare(b.name));
 const featured = awards.filter((award) => award.data.featured && award.data.achievementType === 'Award');
 ---
 
@@ -28,7 +50,7 @@ const featured = awards.filter((award) => award.data.featured && award.data.achi
   <header class="projects-intro">
     <p class="eyebrow">Student achievements</p>
     <h1>Achievements & Awards</h1>
-    <p>Explore ATL results by year, level and achievement type. An award win, selection, grant or recognition keeps its own label.</p>
+    <p>Explore ATL results by competition, level and achievement type. An award win, selection, grant or recognition keeps its own label.</p>
   </header>
 
   <section class="awards-archive" aria-labelledby="awards-archive-heading">
@@ -47,17 +69,33 @@ const featured = awards.filter((award) => award.data.featured && award.data.achi
         </div>
 
         <div class="award-groups">
-          {yearKeys.map((key) => (
-            <section class="award-group" data-award-group aria-labelledby={`award-year-${key.replace(/[^a-z0-9]/gi, '-')}`}>
-              <h3 id={`award-year-${key.replace(/[^a-z0-9]/gi, '-')}`}>{key}</h3>
-              <div class="award-grid">
-                {awards.filter((award) => awardYearKey(award) === key).map((award) => (
-                  <div class="award-grid__item" data-award-year={key} data-award-level={award.data.level ?? 'Level not specified'} data-award-type={award.data.achievementType}>
-                    <AwardCard award={award} project={projectById.get(award.data.projectId ?? '')} />
-                  </div>
+          {programmes.map((programme) => (
+            <details class="programme" data-award-group>
+              <summary class="programme__summary">
+                <span class="programme__name">{programme.name}</span>
+                <span class="programme__meta">
+                  <span class="badge badge--category">Highest: {programme.topLevel}</span>
+                  <span>{programme.items.length} {programme.items.length === 1 ? 'record' : 'records'}</span>
+                  {programme.projectCount > 0 && <span>{programme.projectCount} {programme.projectCount === 1 ? 'project' : 'projects'}</span>}
+                  {programme.yearText && <span>{programme.yearText}</span>}
+                </span>
+                <span class="programme__chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="programme__body">
+                {programme.levelGroups.map((group) => (
+                  <section class="programme__level" data-award-group aria-labelledby={`level-${slugify(programme.name)}-${slugify(group.level)}`}>
+                    <h3 id={`level-${slugify(programme.name)}-${slugify(group.level)}`}>{group.level}</h3>
+                    <div class="award-grid">
+                      {group.items.map((award) => (
+                        <div class="award-grid__item" data-award-year={awardYearKey(award)} data-award-level={award.data.level ?? 'Level not specified'} data-award-type={award.data.achievementType}>
+                          <AwardCard award={award} project={projectById.get(award.data.projectId ?? '')} />
+                        </div>
+                      ))}
+                    </div>
+                  </section>
                 ))}
               </div>
-            </section>
+            </details>
           ))}
         </div>
         <p class="projects-empty" data-award-empty hidden>No records match these filters. Clear filters to see the full archive.</p>
@@ -96,6 +134,7 @@ const featured = awards.filter((award) => award.data.featured && award.data.achi
   const resetButton = document.querySelector<HTMLButtonElement>('[data-award-reset]');
   const cards = [...document.querySelectorAll<HTMLElement>('[data-award-year]')];
   const groups = [...document.querySelectorAll<HTMLElement>('[data-award-group]')];
+  const programmes = [...document.querySelectorAll<HTMLDetailsElement>('details.programme')];  
   const count = document.querySelector<HTMLElement>('#award-result-count');
   const empty = document.querySelector<HTMLElement>('[data-award-empty]');
 
@@ -110,6 +149,8 @@ const featured = awards.filter((award) => award.data.featured && award.data.achi
         if (!card.hidden) visible += 1;
       }
       for (const group of groups) group.hidden = !group.querySelector('[data-award-year]:not([hidden])');
+      const filtering = yearSelect.value !== 'all' || levelSelect.value !== 'all' || typeSelect.value !== 'all';
+      if (filtering) for (const programme of programmes) if (!programme.hidden) programme.open = true;      
       count.textContent = `${visible} ${visible === 1 ? 'record' : 'records'} shown`;
       empty.hidden = visible !== 0;
     };

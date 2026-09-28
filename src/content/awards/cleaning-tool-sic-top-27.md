@@ -2,6 +2,7 @@
 title: "Multi-Purpose Cleaning Tool among School Innovation Council's top 27"
 organiser: "School Innovation Council (SIC)"
 competition: "School Innovation Council recognition"
+programme: ATL Marathon
 result: "Among the top 27 in the country"
 achievementType: Selection
 level: National

@@ -2,6 +2,7 @@
 title: "IoT fertilizer system wins BMC Science Exhibition first prize"
 organiser: "Bhubaneswar Municipal Corporation (BMC)"
 competition: "BMC Science Exhibition, Bhubaneswar"
+programme: Block Level (BMC Level)
 result: "First prize; cash prize of ₹1,500"
 achievementType: Award
 projectId: iot-fertilizer-system

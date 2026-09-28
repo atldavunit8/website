@@ -2,6 +2,7 @@
 title: "Charged-pole safety device recognised among top 200 in AI readiness"
 organiser: "INSPIRE MANAK"
 competition: "Building AI Readiness among Young Innovators"
+programme: Building AI Readiness among Young Innovators
 result: "Among the top 200"
 achievementType: Award
 level: National

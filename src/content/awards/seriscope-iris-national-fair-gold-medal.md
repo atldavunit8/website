@@ -4,6 +4,7 @@ organiser: "Exstemplar Education Linkers Foundation"
 competition: "Initiative for Research & Innovation in STEM (IRIS) National Fair, Cohort 1"
 result: "Gold Medal Winner"
 achievementType: Award
+programme: Initiative for Research & Innovation in STEM (IRIS) National Fair
 projectId: seriscope
 level: National
 year: 2026

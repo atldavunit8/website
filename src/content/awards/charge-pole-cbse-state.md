@@ -2,6 +2,7 @@
 title: "Charged-pole safety device qualifies for CBSE National Science Exhibition"
 organiser: "CBSE"
 competition: "CBSE Science Exhibition"
+programme: CBSE Science Exhibition 
 result: "Won state level"
 achievementType: Award
 level: State

@@ -2,6 +2,7 @@
 title: "Tasar Cocoon Counting Machine wins at CBSE national level"
 organiser: "CBSE"
 competition: "CBSE National Science Fair"
+programme: CBSE Science Exhibition
 result: "National Winner"
 achievementType: Award
 projectId: tasar-cocoon-counting-machine

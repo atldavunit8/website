@@ -2,6 +2,7 @@
 title: "IoT fertilizer system wins third prize at DAV Unit-8 Science Exhibition"
 organiser: "D.A.V. Public School, Unit-8, Bhubaneswar"
 competition: "DAV Unit-8 Science Exhibition"
+programme: School Exhibition
 result: "Third prize"
 achievementType: Award
 level: School
