@@ -18,6 +18,7 @@ publishStatus: published
 cover:
   src: "/images/projects/oyster.png"
   caption: "Prototype from the submitted project archive."
+  alt: "Prototype from the submitted project archive."
   width: 586
   height: 532
 ---
