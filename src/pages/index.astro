@@ -9,6 +9,7 @@ import Testimonials from '../components/Testimonials.astro';
 import { atlEmail } from '../lib/enquiry';
 import { isPublished } from '../lib/content';
 import { awardLevels, getAwardTotals, getAwardWinningProjects } from '../lib/home';
+import GalleryDeck from '../components/GalleryDeck.astro';
 
 const [projects, awards, leadership, news, competitions, events, publications] = await Promise.all([
   getCollection('projects', isPublished),
@@ -110,7 +111,7 @@ const latestPublications = [...publications].sort((a, b) => b.data.year - a.data
 
   <section class="home-section" aria-labelledby="events-heading">
     <div class="section-topline"><SectionHeading eyebrow="Life in the lab" title="Gallery" id="events-heading" /><a class="text-link" href="/gallery/">Explore gallery <span aria-hidden="true">→</span></a></div>
-    {recentEvents.length ? <div class="card-grid">{recentEvents.map((event) => <article class="simple-card"><span class="simple-card__icon" aria-hidden="true">✦</span><p class="eyebrow">{event.data.date ?? event.data.year ?? 'Event'}</p><h3>{event.data.title}</h3><p>{event.data.summary}</p></article>)}</div> : <EmptyState title="Event stories are being prepared" />}
+    <GalleryDeck />
   </section>
 
   <section class="home-section" aria-labelledby="publications-heading">

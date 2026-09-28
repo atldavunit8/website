@@ -1,0 +1,124 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+
+const root = path.join(process.cwd(), 'public', 'gallery');
+const imageExt = /\.(jpe?g|png|webp|avif|gif)$/i;
+const byName = new Intl.Collator(undefined, { numeric: true }).compare;
+
+function collect(dir: string, urlBase: string): { src: string; alt: string }[] {
+  return fs
+    .readdirSync(dir, { withFileTypes: true })
+    .sort((a, b) => byName(a.name, b.name))
+    .flatMap((entry) => {
+      const url = `${urlBase}/${encodeURIComponent(entry.name)}`;
+      if (entry.isDirectory()) return collect(path.join(dir, entry.name), url);
+      if (!imageExt.test(entry.name)) return [];
+      return [{ src: url, alt: `ATL gallery photo: ${entry.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ')}` }];
+    });
+}
+
+// The deck shows the first 10 photos; the full set lives on /gallery/
+const photos = (fs.existsSync(root) ? collect(root, '/gallery') : []).slice(0, 10);
+---
+
+{photos.length > 0 && (
+  <div class="deck" data-deck role="group" aria-roledescription="carousel" aria-label="Gallery photos">
+    <div class="deck__stack">
+      {photos.map((photo, i) => (
+        <figure class="deck__card" data-card>
+          <img src={photo.src} alt={photo.alt} loading={i < 3 ? 'eager' : 'lazy'} decoding="async" draggable="false" />
+        </figure>
+      ))}
+    </div>
+    {photos.length > 1 && (
+      <div class="deck__controls">
+        <button type="button" data-prev aria-label="Previous photo">‹</button>
+        <span data-count aria-live="off">1 / {photos.length}</span>
+        <button type="button" data-next aria-label="Next photo">›</button>
+      </div>
+    )}
+  </div>
+)}
+
+<style>
+  .deck { display: grid; justify-items: center; gap: var(--space-4); padding: var(--space-3) 2rem var(--space-3) 0.5rem; }
+  .deck__stack { position: relative; width: min(100%, 34rem); aspect-ratio: 4 / 3; }
+  .deck__card {
+    --pos: 0;
+    position: absolute; inset: 0; margin: 0; padding: 0.5rem;
+    border: 1px solid var(--line); border-radius: var(--radius-md);
+    background: var(--surface); box-shadow: var(--shadow-card);
+    transform-origin: 50% 100%;
+    transform: translate(calc(var(--pos) * 14px), calc(var(--pos) * 10px)) rotate(calc(var(--pos) * 2.5deg)) scale(calc(1 - var(--pos) * 0.04));
+    z-index: calc(20 - var(--pos));
+    opacity: 1;
+    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.6s ease;
+  }
+  .deck__card[data-far] { opacity: 0; pointer-events: none; }
+  .deck__card.is-leaving { transform: translateX(115%) rotate(14deg); opacity: 0; transition-duration: 0.45s; }
+  .deck__card img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: calc(var(--radius-md) - 4px); user-select: none; }
+  .deck__controls { display: flex; align-items: center; gap: var(--space-4); color: #4A453C; font-family: var(--font-mono); font-size: 0.85rem; }
+  .deck__controls button { width: 2.5rem; height: 2.5rem; border: 1px solid var(--line); border-radius: 50%; background: var(--surface); color: var(--navy); font-size: 1.4rem; line-height: 1; cursor: pointer; }
+  .deck__controls button:hover { border-color: var(--blue); }
+  .deck__controls button:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce) { .deck__card, .deck__card.is-leaving { transition: none; } }
+</style>
+
+<script>
+  const INTERVAL = 2800; // ms between cards
+
+  document.querySelectorAll<HTMLElement>('[data-deck]').forEach((deck) => {
+    const cards = [...deck.querySelectorAll<HTMLElement>('[data-card]')];
+    const n = cards.length;
+    const count = deck.querySelector<HTMLElement>('[data-count]');
+    let top = 0;
+    let busy = false;
+    let timer: number | undefined;
+
+    function render() {
+      cards.forEach((card, i) => {
+        const pos = (i - top + n) % n;
+        card.style.setProperty('--pos', String(pos));
+        card.toggleAttribute('data-far', pos > 3);
+        card.setAttribute('aria-hidden', String(pos !== 0));
+      });
+      if (count) count.textContent = `${top + 1} / ${n}`;
+    }
+
+    function next() {
+      if (busy || n < 2) return;
+      busy = true;
+      cards[top].classList.add('is-leaving');
+      window.setTimeout(() => {
+        cards[top].classList.remove('is-leaving');
+        top = (top + 1) % n;
+        render();
+        busy = false;
+      }, 450);
+    }
+
+    function prev() {
+      if (busy || n < 2) return;
+      top = (top - 1 + n) % n;
+      render();
+    }
+
+    function start() {
+      stop();
+      if (n > 1 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) timer = window.setInterval(next, INTERVAL);
+    }
+    function stop() { if (timer) window.clearInterval(timer); timer = undefined; }
+
+    deck.querySelector('[data-next]')?.addEventListener('click', () => { next(); start(); });
+    deck.querySelector('[data-prev]')?.addEventListener('click', () => { prev(); start(); });
+    deck.addEventListener('mouseenter', stop);
+    deck.addEventListener('mouseleave', start);
+    deck.addEventListener('focusin', stop);
+    deck.addEventListener('focusout', start);
+    document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+
+    render();
+    start();
+  });
+</script>
