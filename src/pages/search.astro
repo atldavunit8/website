@@ -1,5 +1,39 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import RoutePlaceholder from '../components/RoutePlaceholder.astro';
 ---
-<BaseLayout title="Search"><RoutePlaceholder title="Search" purpose="A local search of published site content will be added in a later stage." /></BaseLayout>
+
+<BaseLayout title="Search" description="Search published content across the ATL website — projects, awards, news, publications and more.">
+  <header class="projects-intro">
+    <p class="eyebrow">ATL, DAV Public School, Unit-VIII</p>
+    <h1>Search</h1>
+    <p>Search across projects, achievements, news, publications and every published page.</p>
+  </header>
+
+  <section class="search-section" aria-labelledby="search-heading">
+    <h2 id="search-heading" class="sr-only">Search results</h2>
+    <div id="search"></div>
+  </section>
+</BaseLayout>
+
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet" />
+<script src="/pagefind/pagefind-ui.js" is:inline></script>
+<script is:inline>
+  window.addEventListener('DOMContentLoaded', () => {
+    new PagefindUI({ element: '#search', showSubResults: true, showImages: false });
+  });
+</script>
+
+<style>
+  .search-section { max-width: 44rem; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  /* Restyle Pagefind's default UI to match the site's palette */
+  #search {
+    --pagefind-ui-primary: var(--navy);
+    --pagefind-ui-text: var(--navy);
+    --pagefind-ui-background: var(--bg);
+    --pagefind-ui-border: var(--line);
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-font: var(--font-body, inherit);
+  }
+</style>
