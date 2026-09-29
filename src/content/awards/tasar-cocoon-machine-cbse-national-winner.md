@@ -7,7 +7,7 @@ result: "National Winner"
 achievementType: Award
 projectId: tasar-cocoon-counting-machine
 level: National
-year: 2025
+year: 2024
 students:
   - "Navya"
 featured: true
