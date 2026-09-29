@@ -11,6 +11,8 @@ const proposalTopics = [
 ];
 ---
 
+
+
 <BaseLayout title="Collaborate with the ATL" description="Suggest a mentorship, workshop, resource or community innovation collaboration with the ATL at DAV Public School, Unit-VIII." noindex={false}>
   <header class="projects-intro collaborate-intro"><p class="eyebrow">Work with us</p><h1>Collaborate with the ATL</h1><p>Ideas from educators, researchers, organisations and community members can help students explore real problems. Tell us what you would like to propose.</p></header>
 
@@ -18,7 +20,41 @@ const proposalTopics = [
 
   <section class="collaboration-steps" aria-labelledby="collaboration-steps-heading"><h2 id="collaboration-steps-heading">How to start</h2><ol><li><strong>Describe your idea.</strong> Include the topic, what you could contribute and any timing that matters.</li><li><strong>Email the ATL.</strong> Use the official address below. You can include your organisation if relevant.</li><li><strong>Discuss next steps.</strong> The Mentor can respond through the school's normal process.</li></ol></section>
 
+  <section class="collaboration-form" aria-labelledby="collaboration-form-heading">
+    <div class="section-heading">
+      <h2 id="collaboration-form-heading">Submit a proposal</h2>
+      <p class="section-heading__description">Fill in the form below and the ATL Mentor will review your proposal.</p>
+    </div>
+    <div class="collaboration-form__embed">
+      <iframe
+        src="https://docs.google.com/forms/d/e/1FAIpQLScBLt9sPI42eLVd3BK75zeY4gbyhiFVf_gH9oUI6rIIx6UQog/viewform?embedded=true"
+        title="Collaborate with the ATL — proposal form"
+        loading="lazy"
+      >Loading…</iframe>
+    </div>
+  </section>
+
   <Testimonials />
   <EnquiryRoute title="Propose a collaboration" description="Send a short note about your idea to our Mentor, Tanmay Kumar Nayak." subject="ATL collaboration enquiry" />
   <p class="contact-crosslink">Looking for general school contact details? <a href="/contact/">Visit the Contact page <span aria-hidden="true">→</span></a></p>
 </BaseLayout>
+
+<style>
+  .collaboration-form__embed {
+    max-width: 44rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+  }
+  .collaboration-form__embed iframe {
+    display: block;
+    width: 100%;
+    height: 1618px;
+    border: 0;
+  }
+  @media (max-width: 40rem) {
+    .collaboration-form__embed iframe { height: 1850px; }
+  }
+</style>
