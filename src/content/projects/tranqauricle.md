@@ -1,6 +1,6 @@
 ---
 title: "TranqAuricle"
-category: "Health & Wellbeing"
+category: "Health & Safety"
 status: "Completed"
 year: 2020
 summary: "A novel, portable and non-invasive device that detects anxiety, records its frequency and calms the brain through the auricle."
